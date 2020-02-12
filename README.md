@@ -1,11 +1,11 @@
-#AI-Driver
+# AI-Driver
 A interdisciplinary project (Gnome+ML). Details would be discussed later. 
 
-##Download
+## Download
 * Code can be cloned and forked from this repository
 * Data can be downloaded from ...
 
-##Usage
+## Usage
 ###Environment Requirement
 * Python 2.7 (/3.6) (does not matter much)
 * Pandas (with xlrd>=0.9.0)

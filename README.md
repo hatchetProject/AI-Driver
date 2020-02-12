@@ -6,13 +6,13 @@ A interdisciplinary project (Gnome+ML). Details would be discussed later.
 * Data can be downloaded from ...
 
 ## Usage
-###Environment Requirement
+### Environment Requirement
 * Python 2.7 (/3.6) (does not matter much)
 * Pandas (with xlrd>=0.9.0)
 * Sklearn 0.22.1
 * XGBoost 0.90
 
-###Basic Usage
+### Basic Usage
 * Run DataLoader.py on original raw Excel (.xls) files. This step extracts the useful information from files and shuffles the dataset for better robustness.
 * Then run train.py by indicating the specific dataset and method. We use 10-fold cross-validation to determine the best parameters for each method. The datasets include original version, original+cleaned version, Phred version, Phred+cleaned version.The source of dataset can be changed according to your preference. Also, the range of parameters to be selected can be founded and changed in utils.py.  
 * Analysis and testing of the models can be done in analyze.py and test.py.
@@ -26,7 +26,7 @@ python analyze.py
 python test.py
 ```
 
-##Experiment Details 
+## Experiment Details 
 
 #### Data Preprocessing
 * We train and test on both original data scores, as well as PHRED-scaled scores

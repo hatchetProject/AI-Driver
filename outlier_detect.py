@@ -8,10 +8,11 @@ import numpy as np
 from sklearn.externals import joblib
 from sklearn.ensemble import IsolationForest
 from sklearn.model_selection import train_test_split
+import argparse
 
-def cleaned_phred():
+def cleaned_phred(path_in, path_out):
     # Remove the outliers in the dataset, cleaning is done based on different labels
-    dataset_phred = np.load("Final_Dataset/Phred_Data.npy")
+    dataset_phred = np.load(path_in)
     dataset_phred_x, dataset_phred_y = dataset_phred[:, :-1], dataset_phred[:, -1].astype(np.int32)
     dataset_phred_x = np.delete(dataset_phred_x, [23, 24, 25], axis=1)
     pos_idx = np.where(dataset_phred_y == 1)[0]
@@ -43,10 +44,10 @@ def cleaned_phred():
     new_data = np.concatenate((new_data_pos, new_data_neg), axis=0)
     np.random.shuffle(new_data)
     print(new_data.shape)
-    np.save("Final_Dataset/cleaned_data_phred.npy", new_data)
+    np.save(path_out, new_data)
 
-def cleaned_orig():
-    dataset_orig = np.load("Final_Dataset/Orig_Data.npy")
+def cleaned_orig(path_in, path_out):
+    dataset_orig = np.load(path_in)
     dataset_orig_x, dataset_orig_y = dataset_orig[:, :-1], dataset_orig[:, -1].astype(np.int32)
     dataset_orig_x = np.delete(dataset_orig_x, [23, 24, 25], axis=1)
     pos_idx = np.where(dataset_orig_y == 1)[0]
@@ -78,8 +79,20 @@ def cleaned_orig():
     new_data = np.concatenate((new_data_pos, new_data_neg), axis=0)
     np.random.shuffle(new_data)
     print(new_data.shape)
-    np.save("Final_Dataset/cleaned_data_orig.npy", new_data)
+    np.save(path_out, new_data)
 
 if __name__=="__main__":
-    #cleaned_phred()
-    cleaned_orig()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-ip", "--inputPath", default="DriverBase/training_Y_orig.xls", help="Input data path")
+    parser.add_argument("-op", "--outputPath", default="DriverBase/training_N_orig.xls", help="Output data path")
+    parser.add_argument("-t", "--type", default="DriverBase/Orig_Data.npy", help="Data type: Original or Phred")
+    args = parser.parse_args()
+    input_Path = args.inputPath
+    output_Path = args.outputPath
+    type = args.type
+    if type == "orig":
+        cleaned_orig(input_Path, output_Path)
+    elif type == "phred":
+        cleaned_phred(input_Path, output_Path)
+    else:
+        print ("Not defined")

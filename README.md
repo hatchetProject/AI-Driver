@@ -19,10 +19,10 @@ A interdisciplinary project (Gnome+ML). Details would be discussed later.
 * outlier_detect.py uses Isolation Forest to detect outliers in data and remove them from the dataset. The new datasets are "cleaned".
 * The procedure can be described as the following code 
 ```python
-python DataLoader.py
-python outlier_detect.py
-python train.py -d phred -m xgbt
-python analyze.py
+python DataLoader.py -pp POSITIVE_PATH -pn NEGATIVE_PATH -op OUTPUT_PATH
+python outlier_detect.py -ip INPUT_PATH -op OUTPUT_PATH -t DATA_TYPE
+python train.py -d DATA_TYPE -m METHOD
+python analyze.py 
 python test.py
 ```
 

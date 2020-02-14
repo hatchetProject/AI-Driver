@@ -72,40 +72,18 @@ def get_dataset(posData, negData):
 
 
 if __name__=="__main__":
-    """
-    pathPos = r"Test_Data_Final/BRCA1/BRCA1_positive_orig.xls"
-    pathNeg = r"Test_Data_Final/BRCA1/BRCA1_negative_orig.xls"
-    posTable = dataloader(pathPos, "Test_Data_Final/BRCA1/trainY.xls", True) # Use True when first using the datasets, change to False for save of calculation
-    negTable = dataloader(pathNeg, "Test_Data_Final/BRCA1/trainN.xls", True)
-    pos_array = table_to_npy(posTable, "Test_Data_Final/BRCA1/trainY_orig.npy")
-    neg_array = table_to_npy(negTable, "Test_Data_Final/BRCA1/trainN_orig.npy")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-pp", "--pathPositive", default="DriverBase/training_Y_orig.xls", help="Input positive data path")
+    parser.add_argument("-pn", "--pathNegative", default="DriverBase/training_N_orig.xls", help="Input negative data path")
+    parser.add_argument("-op", "--outPath", default="DriverBase/Orig_Data.npy", help="Ouput data path")
+    args = parser.parse_args()
+    pathPos = args.pathPositive
+    pathNeg = args.pathNegative
+    output_path = args.outPath
+    posTable = dataloader(pathPos, "DriverBase/trainY.xls", True)  # Use True when first using the datasets, change to False for save of calculation
+    negTable = dataloader(pathNeg, "DriverBase/trainN.xls", True)
+    pos_array = table_to_npy(posTable)
+    neg_array = table_to_npy(negTable)
     orig_dataset = get_dataset(pos_array, neg_array)
     print(orig_dataset.shape)
-    np.save("Test_Data_Final/BRCA1/Orig_Data.npy", orig_dataset)
-
-    path_phred_pos = r"Test_Data_Final/BRCA1/BRCA1_positive_Phred.xls"
-    path_phred_neg = r"Test_Data_Final/BRCA1/BRCA1_negative_Phred.xls"
-    posTablePhred = dataloader(path_phred_pos, "Test_Data_Final/BRCA1/trainY.xls", True)
-    negTablePhred = dataloader(path_phred_neg, "Test_Data_Final/BRCA1/trainN.xls", True)
-    pos_array_phred = table_to_npy(posTablePhred, "Test_Data_Final/BRCA1/trainY_phred.npy")
-    neg_array_phred = table_to_npy(negTablePhred, "Test_Data_Final/BRCA1/trainN_phred.npy")
-    phred_dataset = get_dataset(pos_array_phred, neg_array_phred)
-    print(phred_dataset.shape)
-    np.save("Test_Data_Final/BRCA1/Phred_Data.npy", phred_dataset)
-    """
-
-    pathPos = r"Test_Data_Final/Pancancer/Pancancer_orig.xls"
-    posTable = dataloader(pathPos, "Test_Data_Final/Pancancer/trainY.xls", True)
-    pos_array = table_to_npy(posTable, "Test_Data_Final/Pancancer/trainY_orig.npy")
-    orig_dataset = pos_array
-    #np.random.shuffle(orig_dataset)
-    print(orig_dataset.shape)
-    np.save("Test_Data_Final/Pancancer/Orig_Data_no_shuffle.npy", orig_dataset)
-
-    pathPos = r"Test_Data_Final/Pancancer/Pancancer_Phred.xls"
-    posTable = dataloader(pathPos, "Test_Data_Final/Pancancer/trainY.xls", True)
-    pos_array = table_to_npy(posTable, "Test_Data_Final/Pancancer/trainY_phred.npy")
-    phred_dataset = pos_array
-    #np.random.shuffle(phred_dataset)
-    print(phred_dataset.shape)
-    np.save("Test_Data_Final/Pancancer/Phred_Data_no_shuffle.npy", phred_dataset)
+    np.save(output_path, orig_dataset)

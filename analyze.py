@@ -20,7 +20,6 @@ import shap
 import pandas as pd
 from outlier_detect import cleaned_orig, cleaned_phred
 
-
 def feature_importances_original():
     import matplotlib
     #matplotlib.use('Agg')
@@ -506,9 +505,9 @@ def shap_explain():
     """
 
 if __name__=="__main__":
-    #feature_importances_phred()
-    #feature_importances_original()
-    #roc_plot_orig()
+    feature_importances_phred()
+    feature_importances_original()
+    roc_plot_orig()
     roc_plot_phred()
-    #shap_explain()
-    #feature_roc_phred()
+    shap_explain()
+    feature_roc_phred()

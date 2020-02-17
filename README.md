@@ -1,9 +1,9 @@
 # AI-Driver
-A interdisciplinary project (Gnome+ML). Details would be discussed later. 
+AI-Driver is a ...
 
 ## Download
-* Code can be cloned and forked from this repository
-* Data can be downloaded from ...
+* Clone and fork code and from this repository
+* Train data is available in the DriverBase folder, test data can be downloaded [Here](http://47.89.179.59/download/varcards.main.Phred_scaled.xls.gz)
 
 ## Usage
 ### Environment Requirement
@@ -17,7 +17,7 @@ A interdisciplinary project (Gnome+ML). Details would be discussed later.
 * Then run train.py by indicating the specific dataset and method. We use 10-fold cross-validation to determine the best parameters for each method. The datasets include original version, original+cleaned version, Phred version, Phred+cleaned version.The source of dataset can be changed according to your preference. Also, the range of parameters to be selected can be founded and changed in utils.py.  
 * Analysis and testing of the models can be done in analyze.py and test.py.
 * outlier_detect.py uses Isolation Forest to detect outliers in data and remove them from the dataset. The new datasets are "cleaned".
-* The procedure can be described as the following code 
+* The procedure can be described as the following code:
 ```python
 python DataLoader.py -pp POSITIVE_PATH -pn NEGATIVE_PATH -op OUTPUT_PATH
 python outlier_detect.py -ip INPUT_PATH -op OUTPUT_PATH -t DATA_TYPE
@@ -25,20 +25,17 @@ python train.py -d DATA_TYPE -m METHOD
 python analyze.py 
 python test.py
 ```
+Explaination:
+* Running DataLoader.py transforms the original xls files into npy file for continuous experiments. Missing value imputation 
+and random shuffling of data is also done. POSITIVE_PATH indicates the path for positive training samples (for example: DriverBase/training_Y_orig.xls), 
+NEGATIVE_PATH indicates the path for negative training samples, OUTPUT_PATH indicates the path for outputing transferred 
+xls files into npy file path (for example: DriverBase/Orig_Data.npy).
+* outlier_detect.py is not compulsory, only adopted if removing outliers is useful. We use Isolation Forest to remove the outliers from the
+data. INPUT_PATH is the path of DataLoader.py's OUTPUT_PATH, OUTPUT_PATH is for data with outliers removed (e.g. DriverBase/cleaned_data_orig.npy), 
+and DATA_TYPE chosen from "orig" and "phred". Specific introduction can be found by using --help command. 
+* train.py does the training process with 10-fold cross-validation, where the parameter space is defined in utils.py. DATA_TYPE is "orig" or "phred", 
+where METHOD can be chosen from SVM (svm), Gradient Boosting Tree (gbdt), Random Forest (rf), Multi-layer Perceptron (mlp), Adaboost (adaboost) and XGBoost (xgbt).
+* analyze.py analyzes the data and trained model using Sklearn methods and SHAP analysis. Model parameters need to be determined in train.py and copied to analyze.py. 
+* test.py does the testing. Model parameters need to be copied, models are saved during testing. 
 
-## Experiment Details 
-
-#### Data Preprocessing
-* We train and test on both original data scores, as well as PHRED-scaled scores
-* The data are shuffled to obtain better robustness for the results
-* Original data features are selected through ROC analysis and SHAP feature evaluation 
-
-### Methods Used for Experiments
-We adopt some well-known ensemble methods:
-* Gradient Boosting Decision Tree (GBDT)
-* SVM 
-* AdaBoost 
-* Random Forest (RF)
-* Multi-layer Perceptron (MLP)
-* XGBoost (xgbt)
-
+### Copyright

@@ -83,9 +83,9 @@ def cleaned_orig(path_in, path_out):
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-ip", "--inputPath", default="DriverBase/training_Y_orig.xls", help="Input data path")
-    parser.add_argument("-op", "--outputPath", default="DriverBase/training_N_orig.xls", help="Output data path")
-    parser.add_argument("-t", "--type", default="DriverBase/Orig_Data.npy", help="Data type: Original or Phred")
+    parser.add_argument("-ip", "--inputPath", default="DriverBase/Orig_Data.npy", help="Input data path")
+    parser.add_argument("-op", "--outputPath", default="DriverBase/clean_data_orig.xls", help="Output data path")
+    parser.add_argument("-t", "--type", default="orig", help="Data type: Original or Phred")
     args = parser.parse_args()
     input_Path = args.inputPath
     output_Path = args.outputPath

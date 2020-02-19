@@ -42,7 +42,7 @@
       <option name="presentableId" value="Default" />
       <updated>1581432337714</updated>
       <workItem from="1581432341422" duration="6274000" />
-      <workItem from="1581602673397" duration="29618000" />
+      <workItem from="1581602673397" duration="30925000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <created>1581433732646</created>
@@ -86,7 +86,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581952741731</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="update code">
+      <created>1582121802760</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1582121802760</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -109,6 +116,7 @@
     <MESSAGE value="First commit" />
     <MESSAGE value="update training dataset and code" />
     <MESSAGE value="update README" />
-    <option name="LAST_COMMIT_MESSAGE" value="update README" />
+    <MESSAGE value="update code" />
+    <option name="LAST_COMMIT_MESSAGE" value="update code" />
   </component>
 </project>

@@ -36,13 +36,12 @@ def dataloader(dir, out_dir, transfer=False):
     return tb
 
 
-def table_to_npy(table, npy):
+def table_to_npy(table):
     """
     Transfer table to npy, keep useful information and leave out useless ones
     The missing data are imputed by median, average, or constant
     The sequence of the data is not changed
     :param table: table to be processed
-    :param npy: output dir
     :return: numpy array
     """
     np_array = np.array(table)
@@ -57,7 +56,6 @@ def table_to_npy(table, npy):
             else:
                 np_array[i][j] = np.NaN
     np_array = impute_median.fit_transform(np_array)
-    np.save(npy, np_array)
     return np_array
 
 def get_dataset(posData, negData):

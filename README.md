@@ -37,7 +37,7 @@ Explaination:
 * Running DataLoader.py transforms the original xls files into npy file for continuous experiments. Missing value imputation 
 and random shuffling of data is also done. POSITIVE_PATH indicates the path for positive training samples (for example: DriverBase/training_Y_orig.xls), 
 NEGATIVE_PATH indicates the path for negative training samples, OUTPUT_PATH indicates the path for outputing transferred 
-xls files into npy file path (for example: DriverBase/Orig_Data.npy).
+xls files into npy file path (for example: DriverBase/Orig_Data.npy). Set NEGATIVE_PATH to "None" to transfer a single xls file into npy format.
 * outlier_detect.py is not compulsory, only adopted if removing outliers is useful. We use Isolation Forest to remove the outliers from the
 data. INPUT_PATH is the path of DataLoader.py's OUTPUT_PATH, OUTPUT_PATH is for data with outliers removed (e.g. DriverBase/cleaned_data_orig.npy), 
 and DATA_TYPE chosen from {"orig", "phred"}. Specific introduction can be found by using --help command. 

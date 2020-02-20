@@ -70,6 +70,14 @@ def get_dataset(posData, negData):
     print("Dataset shape:", dataset.shape)
     return dataset
 
+def get_test_dataset(dataset):
+    """
+    Get the dataset that has mixed labels so that we can train
+    :param posData: type of np.array
+    :param negData: type of np.array
+    :return: shuffled whole dataset
+    """
+    return dataset
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
@@ -80,10 +88,15 @@ if __name__=="__main__":
     pathPos = args.pathPositive
     pathNeg = args.pathNegative
     output_path = args.outPath
-    posTable = dataloader(pathPos, "DriverBase/trainY.xls", True)  # Use True when first using the datasets, change to False for save of calculation
-    negTable = dataloader(pathNeg, "DriverBase/trainN.xls", True)
-    pos_array = table_to_npy(posTable)
-    neg_array = table_to_npy(negTable)
-    orig_dataset = get_dataset(pos_array, neg_array)
+    if pathNeg == "None":
+        posTable = dataloader(pathPos, "DriverBase/trainY.xls", True)
+        pos_array = table_to_npy(posTable)
+        orig_dataset = get_test_dataset(pos_array)
+    else:
+        posTable = dataloader(pathPos, "DriverBase/trainY.xls", True)  # Use True when first using the datasets, change to False for save of calculation
+        negTable = dataloader(pathNeg, "DriverBase/trainN.xls", True)
+        pos_array = table_to_npy(posTable)
+        neg_array = table_to_npy(negTable)
+        orig_dataset = get_dataset(pos_array, neg_array)
     print(orig_dataset.shape)
     np.save(output_path, orig_dataset)

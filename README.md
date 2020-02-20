@@ -7,10 +7,18 @@ AI-Driver is a ...
 
 ## Usage
 ### Environment Requirement
-* Python 2.7 (/3.6) (does not matter much)
+You can install the environment by
+```python
+conda create -n python3 python=3 xgboost=0.90 scikit-learn=0.221 xlrd xlwt pandas shap 
+```
+where the used packages include
+* Python 3.6
 * Pandas (with xlrd>=0.9.0)
 * Sklearn 0.22.1
 * XGBoost 0.90
+* xlrd, xlwt
+* SHAP
+
 
 ### Basic Usage
 * Run DataLoader.py on original raw Excel (.xls) files. This step extracts the useful information from files and shuffles the dataset for better robustness.
@@ -22,7 +30,7 @@ AI-Driver is a ...
 python DataLoader.py -pp POSITIVE_PATH -pn NEGATIVE_PATH -op OUTPUT_PATH
 python outlier_detect.py -ip INPUT_PATH -op OUTPUT_PATH -t DATA_TYPE
 python train.py -d DATA_TYPE -m METHOD
-python analyze.py 
+python analyze.py -d DATA_FORM -p DATA_PATH
 python test.py
 ```
 Explaination:
@@ -32,10 +40,12 @@ NEGATIVE_PATH indicates the path for negative training samples, OUTPUT_PATH indi
 xls files into npy file path (for example: DriverBase/Orig_Data.npy).
 * outlier_detect.py is not compulsory, only adopted if removing outliers is useful. We use Isolation Forest to remove the outliers from the
 data. INPUT_PATH is the path of DataLoader.py's OUTPUT_PATH, OUTPUT_PATH is for data with outliers removed (e.g. DriverBase/cleaned_data_orig.npy), 
-and DATA_TYPE chosen from "orig" and "phred". Specific introduction can be found by using --help command. 
+and DATA_TYPE chosen from {"orig", "phred"}. Specific introduction can be found by using --help command. 
 * train.py does the training process with 10-fold cross-validation, where the parameter space is defined in utils.py. DATA_TYPE is "orig" or "phred", 
 where METHOD can be chosen from SVM (svm), Gradient Boosting Tree (gbdt), Random Forest (rf), Multi-layer Perceptron (mlp), Adaboost (adaboost) and XGBoost (xgbt).
-* analyze.py analyzes the data and trained model using Sklearn methods and SHAP analysis. Model parameters need to be determined in train.py and copied to analyze.py. 
+* analyze.py analyzes the data and trained model using Sklearn methods and SHAP analysis. Model parameters need to be determined in train.py and analyze.py should use these 
+parameters for analysis (the best parameters for XGBoost are already available in code, but if you would like to change them, you have to do it manually). DATA_PATH indicates
+the path for data. DATA_FORM takes a value from {"orig", "phred", "test"}. If you choose "test", the data provided should be only from test dataset.
 * test.py does the testing. Model parameters need to be copied, models are saved during testing. 
 
 ### Copyright

@@ -35,7 +35,6 @@ def all_train(train_x_orig, train_y_orig, train_x_phred, train_y_phred):
     model_xgbt_phred.fit(train_x_phred, train_y_phred)
     joblib.dump(model_xgbt_phred, "model/xgboost_phred_all.pkl")
 
-
 def cleaned_train(train_x_orig, train_y_orig, train_x_phred, train_y_phred):
     ## Get the two models (using original and Phred) trained on cleaned samples
     print("Training on cleaned orgiginal dataset")
@@ -75,7 +74,6 @@ def test_and_evaluate(test_x, test_y, model):
     print("AUC: ", roc_auc_score(test_y, y_prob[:, -1]))
     #fpr, tpr, _ = roc_curve(test_y, y_prob[:, -1])
 
-
 def save_xls(test_x, model, file_name):
     y_prob = model.predict_proba(test_x)
     workbook = xlwt.Workbook(encoding="utf-8")
@@ -89,7 +87,6 @@ def save_xls(test_x, model, file_name):
 
 
 if __name__=="__main__":
-    """
     ## Train on whole training dataset
     dataset_orig = np.load("Final_Dataset/Orig_Data.npy")
     dataset_phred = np.load("Final_Dataset/Phred_Data.npy")
@@ -109,7 +106,6 @@ if __name__=="__main__":
     dataset_orig_x = np.delete(dataset_orig_x, [23, 24, 25], axis=1)
     dataset_phred_x = np.delete(dataset_phred_x, [23, 24, 25], axis=1)
     cleaned_train(dataset_orig_x, dataset_orig_y, dataset_phred_x, dataset_phred_y)
-    """
     
     ## Test on Pancancer
     dataset_orig = np.load("Test_Data_Final/Pancancer/Orig_Data_no_shuffle.npy")
@@ -154,7 +150,6 @@ if __name__=="__main__":
     model_rf_cleaned = joblib.load("model/rf_phred_cleaned.pkl")
     #test_and_evaluate(dataset_phred_x, dataset_phred_y, model_rf_cleaned)
     save_xls(dataset_phred_x, model_rf_cleaned, "rf_phred_cleaned_no_shuffle.xls")
-    """
     
     ## Test on BRCA1
     dataset_orig = np.load("Test_Data_Final/BRCA1/Orig_Data.npy")
@@ -191,4 +186,3 @@ if __name__=="__main__":
     print("Testing on random forest trained with cleaned training set")
     model_rf_cleaned = joblib.load("model/rf_phred_cleaned.pkl")
     test_and_evaluate(dataset_phred_x, dataset_phred_y, model_rf_cleaned)
-    """

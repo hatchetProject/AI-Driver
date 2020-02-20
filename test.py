@@ -4,7 +4,11 @@ Evaluate our performance on test data
 
 from utils import *
 import xlwt
+from sklearn.metrics import matthews_corrcoef
+from xlrd import open_workbook
+from xlutils.copy import copy
 import matplotlib.pyplot as plt
+import argparse
 
 def all_train(train_x_orig, train_y_orig, train_x_phred, train_y_phred):
     ## Get the two models (using original and Phred) trained on all samples
@@ -72,21 +76,22 @@ def test_and_evaluate(test_x, test_y, model):
     print ("Recall: ", recall_score(test_y, y_result))
     print ("F1 Score: ", f1_score(test_y, y_result))
     print("AUC: ", roc_auc_score(test_y, y_prob[:, -1]))
-    #fpr, tpr, _ = roc_curve(test_y, y_prob[:, -1])
 
-def save_xls(test_x, model, file_name):
+def save_xls(test_x, test_y, model, file_name):
     y_prob = model.predict_proba(test_x)
+    _, tpr, _ = roc_curve(test_y, y_prob[:, -1])
+
     workbook = xlwt.Workbook(encoding="utf-8")
     booksheet = workbook.add_sheet("sheet1", cell_overwrite_ok=True)
-    booksheet.write(0, 0, "false")
-    booksheet.write(0, 1, "true")
+    booksheet.write(0, 12, "false")
+    booksheet.write(0, 13, "true")
     for i in range(y_prob.shape[0]):
-        booksheet.write(i+1, 0, float(y_prob[i][0]))
-        booksheet.write(i+1, 1, float(y_prob[i][1]))
-    workbook.save("predict_result/"+file_name)
+        booksheet.write(i+1, 12, float(y_prob[i][0]))
+        booksheet.write(i+1, 13, float(y_prob[i][1]))
+    workbook.save(file_name)
 
-
-if __name__=="__main__":
+def train():
+    ## Training and saving model, this part only need to be done once
     ## Train on whole training dataset
     print("Train on whole training dataset and save model")
     dataset_orig = np.load("DriverBase/Orig_Data.npy")
@@ -108,83 +113,49 @@ if __name__=="__main__":
     dataset_orig_x = np.delete(dataset_orig_x, [23, 24, 25], axis=1)
     dataset_phred_x = np.delete(dataset_phred_x, [23, 24, 25], axis=1)
     cleaned_train(dataset_orig_x, dataset_orig_y, dataset_phred_x, dataset_phred_y)
-    
-    ## Test on Pancancer
-    dataset_orig = np.load("Test_Data_Final/Pancancer/Orig_Data_no_shuffle.npy")
-    dataset_phred = np.load("Test_Data_Final/Pancancer/Phred_Data_no_shuffle.npy")
 
-    dataset_orig_x, dataset_orig_y = dataset_orig[:, :-1], dataset_orig[:, -1].astype(np.int32)
-    dataset_phred_x, dataset_phred_y = dataset_phred[:, :-1], dataset_phred[:, -1].astype(np.int32)
-    dataset_orig_x = np.delete(dataset_orig_x, [23, 24, 25], axis=1)
-    dataset_phred_x = np.delete(dataset_phred_x, [23, 24, 25], axis=1)
-    print("Test on original Pancancer dataset")
-    print("Testing on XGBoost trained with whole training set")
-    model_xgbt_all = joblib.load("model/xgboost_orig_all.pkl")
-    #test_and_evaluate(dataset_orig_x, dataset_orig_y, model_xgbt_all)
-    save_xls(dataset_orig_x, model_xgbt_all, "xgboost_orig_all_no_shuffle.xls")
-    print("Testing on random forest trained with whole training set")
-    model_rf_all = joblib.load("model/rf_orig_all.pkl")
-    #test_and_evaluate(dataset_orig_x, dataset_orig_y, model_rf_all)
-    save_xls(dataset_orig_x, model_rf_all, "rf_orig_all_no_shuffle.xls")
-    print("Testing on XGBoost trained with cleaned training set")
-    model_xgbt_cleaned = joblib.load("model/xgboost_orig_cleaned.pkl")
-    #test_and_evaluate(dataset_orig_x, dataset_orig_y, model_xgbt_cleaned)
-    save_xls(dataset_orig_x, model_xgbt_cleaned, "xgboost_orig_cleaned_no_shuffle.xls")
-    print("Testing on random forest trained with cleaned training set")
-    model_rf_cleaned = joblib.load("model/rf_orig_cleaned.pkl")
-    #test_and_evaluate(dataset_orig_x, dataset_orig_y, model_rf_cleaned)
-    save_xls(dataset_orig_x, model_rf_cleaned, "rf_orig_cleaned_no_shuffle.xls")
+if __name__=="__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-f", "--train_flag", default="True", help="Perform training or not. Only need to train the first time, if models already saved, set this to False")
+    parser.add_argument("-d", "--data_type", default="orig", help="Data type of the test data")
+    parser.add_argument("-tp", "--test_path", default="Test_Data_Final/Pancancer/Orig_Data.npy", help="Test data type")
+    parser.add_argument("-of", "--output_folder", default="Test_Data_Final/Pancancer/")
+    args = parser.parse_args()
+    train_f = args.train_flag
+    d_type = args.data_type
+    test_path = args.test_path
+    output_path = args.output_folder
 
-    print("Testing on Phred Pancancer dataset")
-    print("Testing on XGBoost trained with whole training set")
-    model_xgbt_all = joblib.load("model/xgboost_phred_all.pkl")
-    #test_and_evaluate(dataset_phred_x, dataset_phred_y, model_xgbt_all)
-    save_xls(dataset_phred_x, model_xgbt_all, "xgboost_phred_all_no_shuffle.xls")
-    print("Testing on random forest trained with whole training set")
-    model_rf_all = joblib.load("model/rf_phred_all.pkl")
-    #test_and_evaluate(dataset_phred_x, dataset_phred_y, model_rf_all)
-    save_xls(dataset_phred_x, model_rf_all, "rf_phred_all_no_shuffle.xls")
-    print("Testing on XGBoost trained with cleaned training set")
-    model_xgbt_cleaned = joblib.load("model/xgboost_phred_cleaned.pkl")
-    #test_and_evaluate(dataset_phred_x, dataset_phred_y, model_xgbt_cleaned)
-    save_xls(dataset_phred_x, model_xgbt_cleaned, "xgboost_phred_cleaned_no_shuffle.xls")
-    print("Testing on random forest trained with cleaned training set")
-    model_rf_cleaned = joblib.load("model/rf_phred_cleaned.pkl")
-    #test_and_evaluate(dataset_phred_x, dataset_phred_y, model_rf_cleaned)
-    save_xls(dataset_phred_x, model_rf_cleaned, "rf_phred_cleaned_no_shuffle.xls")
-    
-    ## Test on BRCA1
-    dataset_orig = np.load("Test_Data_Final/BRCA1/Orig_Data.npy")
-    dataset_phred = np.load("Test_Data_Final/BRCA1/Phred_Data.npy")
+    ## Training process
+    if train_f == "True":
+        train()
 
-    dataset_orig_x, dataset_orig_y = dataset_orig[:, :-1], dataset_orig[:, -1].astype(np.int32)
-    dataset_phred_x, dataset_phred_y = dataset_phred[:, :-1], dataset_phred[:, -1].astype(np.int32)
-    dataset_orig_x = np.delete(dataset_orig_x, [23, 24, 25], axis=1)
-    dataset_phred_x = np.delete(dataset_phred_x, [23, 24, 25], axis=1)
-    print("Test on original BRCA1 dataset")
-    print("Testing on XGBoost trained with whole training set")
-    model_xgbt_all = joblib.load("model/xgboost_orig_all.pkl")
-    test_and_evaluate(dataset_orig_x, dataset_orig_y, model_xgbt_all)
-    print("Testing on random forest trained with whole training set")
-    model_rf_all = joblib.load("model/rf_orig_all.pkl")
-    test_and_evaluate(dataset_orig_x, dataset_orig_y, model_rf_all)
-    print("Testing on XGBoost trained with cleaned training set")
-    model_xgbt_cleaned = joblib.load("model/xgboost_orig_cleaned.pkl")
-    test_and_evaluate(dataset_orig_x, dataset_orig_y, model_xgbt_cleaned)
-    print("Testing on random forest trained with cleaned training set")
-    model_rf_cleaned = joblib.load("model/rf_orig_cleaned.pkl")
-    test_and_evaluate(dataset_orig_x, dataset_orig_y, model_rf_cleaned)
+    ## Testing process
+    dataset = np.load(test_path)
+    dataset_x, dataset_y = dataset[:, :-1], dataset[:, -1].astype(np.int32)
+    dataset_x = np.delete(dataset_x, [23, 24, 25], axis=1)
+    if d_type == "orig":
+        print("Test on original dataset")
+        print("Testing on XGBoost trained with whole training set")
+        model_xgbt_all = joblib.load("model/xgboost_orig_all.pkl")
+        test_and_evaluate(dataset_x, dataset_y, model_xgbt_all)
+        save_xls(dataset_x, dataset_y, model_xgbt_all, output_path+"xgboost_orig.xls")
 
-    print("Testing on Phred BRCA1 dataset")
-    print("Testing on XGBoost trained with whole training set")
-    model_xgbt_all = joblib.load("model/xgboost_phred_all.pkl")
-    test_and_evaluate(dataset_phred_x, dataset_phred_y, model_xgbt_all)
-    print("Testing on random forest trained with whole training set")
-    model_rf_all = joblib.load("model/rf_phred_all.pkl")
-    test_and_evaluate(dataset_phred_x, dataset_phred_y, model_rf_all)
-    print("Testing on XGBoost trained with cleaned training set")
-    model_xgbt_cleaned = joblib.load("model/xgboost_phred_cleaned.pkl")
-    test_and_evaluate(dataset_phred_x, dataset_phred_y, model_xgbt_cleaned)
-    print("Testing on random forest trained with cleaned training set")
-    model_rf_cleaned = joblib.load("model/rf_phred_cleaned.pkl")
-    test_and_evaluate(dataset_phred_x, dataset_phred_y, model_rf_cleaned)
+        print("Testing on XGBoost trained with cleaned training set")
+        model_xgbt_cleaned = joblib.load("model/xgboost_orig_cleaned.pkl")
+        test_and_evaluate(dataset_x, dataset_y, model_xgbt_cleaned)
+        save_xls(dataset_x, dataset_y, model_xgbt_cleaned, output_path+"xgboost_orig_cleaned.xls")
+
+    elif d_type == "phred":
+        print("Testing on Phred dataset")
+        print("Testing on XGBoost trained with whole training set")
+        model_xgbt_all = joblib.load("model/xgboost_phred_all.pkl")
+        test_and_evaluate(dataset_x, dataset_y, model_xgbt_all)
+        save_xls(dataset_x, dataset_y, model_xgbt_all, output_path+"xgboost_phred.xls")
+
+        print("Testing on XGBoost trained with cleaned training set")
+        model_xgbt_cleaned = joblib.load("model/xgboost_phred_cleaned.pkl")
+        test_and_evaluate(dataset_x, dataset_y, model_xgbt_cleaned)
+        save_xls(dataset_x, dataset_y, model_xgbt_cleaned, output_path+"xgboost_phred_cleaned.xls")
+    else:
+        print("Data type not allowed Refer to --help for more information")

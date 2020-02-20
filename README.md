@@ -31,7 +31,7 @@ python DataLoader.py -pp POSITIVE_PATH -pn NEGATIVE_PATH -op OUTPUT_PATH
 python outlier_detect.py -ip INPUT_PATH -op OUTPUT_PATH -t DATA_TYPE
 python train.py -d DATA_TYPE -m METHOD
 python analyze.py -d DATA_FORM -p DATA_PATH
-python test.py
+python test.py -f TRAIN -d DATA_TYPE -tp TEST_PATH -of OUTPUT_FOLDER
 ```
 Explaination:
 * Running DataLoader.py transforms the original xls files into npy file for continuous experiments. Missing value imputation 
@@ -47,6 +47,9 @@ Multi-layer Perceptron (mlp), Adaboost (adaboost) and XGBoost (xgbt).
 * analyze.py analyzes the data and trained model using Sklearn methods and SHAP analysis. Model parameters need to be determined in train.py and analyze.py should use these 
 parameters for analysis (the best parameters for XGBoost are already available in code, but if you would like to change them, you have to do it manually). DATA_PATH indicates
 the path for data. DATA_FORM takes a value from {"orig", "phred", "test"}. If you choose "test", the data provided should be only from test dataset.
-* test.py does the testing. Model parameters need to be copied, models are saved during testing. 
+* test.py does the testing. Model parameters need to be copied, models are saved during testing. If TRAIN is set to True, then train and save models according to the best parameters, else no training is done. Thus
+TRAIN should be set to True for the first time and the other times are optional. DATA_TYPE should take from {"orig", "phred"}, TEST_PATH is the path of test data. OUTPUT_FOLDER is a folder for saving prediction results, 
+usually can make it the same directory as test data. 
+  
 
 ### Copyright

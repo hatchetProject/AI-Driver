@@ -8,16 +8,8 @@ from utils import *
 import argparse
 from outlier_detect import cleaned_orig, cleaned_phred
 
-dataset_orig = np.load("Final_Dataset/cleaned_data_orig.npy")
-dataset_phred = np.load("Final_Dataset/cleaned_data_phred.npy")
 
-dataset_orig_x, dataset_orig_y = dataset_orig[:, :-1], dataset_orig[:, -1].astype(np.int32)
-dataset_phred_x, dataset_phred_y = dataset_phred[:, :-1], dataset_phred[:, -1].astype(np.int32)
-dataset_orig_x = np.delete(dataset_orig_x, [23, 24, 25], axis=1)
-dataset_phred_x = np.delete(dataset_phred_x, [23, 24, 25], axis=1)
 
-#dataset_phred_x, dataset_phred_y, _ = cleaned_phred()
-#dataset_orig_x, dataset_orig_y, _ = cleaned_orig()
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
@@ -28,12 +20,18 @@ if __name__=="__main__":
     method = args.method
     train_x, train_y = None, None
     if dataset == "orig":
-        train_x = dataset_orig_x
-        train_y = dataset_orig_y
+        dataset = np.load("DriverBase/Orig_Data.npy")
     elif dataset == "phred":
-        train_x = dataset_phred_x
-        train_y = dataset_phred_y
-    print (train_x.shape)
+        dataset = np.load("DriverBase/Phred_Data.npy")
+    elif dataset == "orig_cleaned":
+        dataset = np.load("DriverBase/cleaned_data_orig.npy")
+    elif dataset == "phred_cleaned":
+        dataset = np.load("DriverBase/cleaned_data_phred.npy")
+    dataset_x, dataset_y = dataset[:, :-1], dataset[:, -1].astype(np.int32)
+    dataset_x = np.delete(dataset_x, [23, 24, 25], axis=1)
+    train_x = dataset_x
+    train_y = dataset_y
+    print ("Training data with shape:", train_x.shape)
     if method == "svm":
         train_svm_classifier(train_x, train_y)
     elif method == "rfc":

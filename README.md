@@ -41,8 +41,9 @@ xls files into npy file path (for example: DriverBase/Orig_Data.npy).
 * outlier_detect.py is not compulsory, only adopted if removing outliers is useful. We use Isolation Forest to remove the outliers from the
 data. INPUT_PATH is the path of DataLoader.py's OUTPUT_PATH, OUTPUT_PATH is for data with outliers removed (e.g. DriverBase/cleaned_data_orig.npy), 
 and DATA_TYPE chosen from {"orig", "phred"}. Specific introduction can be found by using --help command. 
-* train.py does the training process with 10-fold cross-validation, where the parameter space is defined in utils.py. DATA_TYPE is "orig" or "phred", 
-where METHOD can be chosen from SVM (svm), Gradient Boosting Tree (gbdt), Random Forest (rf), Multi-layer Perceptron (mlp), Adaboost (adaboost) and XGBoost (xgbt).
+* train.py does the training process with 10-fold cross-validation, where the parameter space is defined in utils.py. DATA_TYPE take from {"orig", "phred", "orig_cleaned", "phred_cleaned"},  
+which indicates original data, Phred data, original data with outliers removed and Phred data with outliers removed. METHOD can be chosen from SVM (svm), Gradient Boosting Tree (gbdt), Random Forest (rf), 
+Multi-layer Perceptron (mlp), Adaboost (adaboost) and XGBoost (xgbt).
 * analyze.py analyzes the data and trained model using Sklearn methods and SHAP analysis. Model parameters need to be determined in train.py and analyze.py should use these 
 parameters for analysis (the best parameters for XGBoost are already available in code, but if you would like to change them, you have to do it manually). DATA_PATH indicates
 the path for data. DATA_FORM takes a value from {"orig", "phred", "test"}. If you choose "test", the data provided should be only from test dataset.

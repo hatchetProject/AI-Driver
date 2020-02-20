@@ -88,8 +88,9 @@ def save_xls(test_x, model, file_name):
 
 if __name__=="__main__":
     ## Train on whole training dataset
-    dataset_orig = np.load("Final_Dataset/Orig_Data.npy")
-    dataset_phred = np.load("Final_Dataset/Phred_Data.npy")
+    print("Train on whole training dataset and save model")
+    dataset_orig = np.load("DriverBase/Orig_Data.npy")
+    dataset_phred = np.load("DriverBase/Phred_Data.npy")
 
     dataset_orig_x, dataset_orig_y = dataset_orig[:, :-1], dataset_orig[:, -1].astype(np.int32)
     dataset_phred_x, dataset_phred_y = dataset_phred[:, :-1], dataset_phred[:, -1].astype(np.int32)
@@ -98,8 +99,9 @@ if __name__=="__main__":
     all_train(dataset_orig_x, dataset_orig_y, dataset_phred_x, dataset_phred_y)
 
     ## Train on cleaned training dataset
-    dataset_orig = np.load("Final_Dataset/cleaned_data_orig.npy")
-    dataset_phred = np.load("Final_Dataset/cleaned_data_phred.npy")
+    print("Train on cleaned training dataset and save model")
+    dataset_orig = np.load("DriverBase/cleaned_data_orig.npy")
+    dataset_phred = np.load("DriverBase/cleaned_data_phred.npy")
 
     dataset_orig_x, dataset_orig_y = dataset_orig[:, :-1], dataset_orig[:, -1].astype(np.int32)
     dataset_phred_x, dataset_phred_y = dataset_phred[:, :-1], dataset_phred[:, -1].astype(np.int32)

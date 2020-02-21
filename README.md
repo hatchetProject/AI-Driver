@@ -3,7 +3,7 @@ AI-Driver is a ...
 
 ## Download
 * Clone and fork code and from this repository
-* Train data is available in the DriverBase folder, test data can be downloaded [Here](http://47.89.179.59/download/varcards.main.Phred_scaled.xls.gz)
+* Train data is available in the DriverBase folder, whole exome matrix data can be downloaded [Here](http://47.89.179.59/download/varcards.main.Phred_scaled.xls.gz)
 
 ## Usage
 ### Environment Requirement

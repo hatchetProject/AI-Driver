@@ -18,6 +18,7 @@ where the used packages include
 * XGBoost 0.90
 * xlrd, xlwt
 * SHAP
+* xlutils
 
 
 ### Basic Usage

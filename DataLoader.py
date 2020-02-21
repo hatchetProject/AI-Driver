@@ -12,7 +12,7 @@ import numpy as np
 from sklearn.impute import SimpleImputer as Imputer
 import argparse
 
-def dataloader(dir, out_dir, transfer=False):
+def small_dataloader(dir, out_dir, transfer=False):
     if transfer:
         filename = dir
         # Opening the file using 'utf8' encoding
@@ -35,6 +35,12 @@ def dataloader(dir, out_dir, transfer=False):
     tb = pd.read_excel(out_dir)
     return tb
 
+def dataloader(dir, out_dir, transfer=False):
+    if transfer:
+        data = pd.read_excel(dir, 'Sheet1', index_col=0)
+        data.to_csv(out_dir, encoding='utf-8')
+    tb = pd.read_csv(out_dir, delimiter=",")
+    return tb
 
 def table_to_npy(table):
     """
@@ -89,14 +95,14 @@ if __name__=="__main__":
     pathNeg = args.pathNegative
     output_path = args.outPath
     if pathNeg == "None":
-        posTable = dataloader(pathPos, "DriverBase/trainY.xls", True)
+        posTable = dataloader(pathPos, "DriverBase/trainY.csv", True)
         pos_array = table_to_npy(posTable)
         orig_dataset = get_test_dataset(pos_array)
     else:
-        posTable = dataloader(pathPos, "DriverBase/trainY.xls", True)  # Use True when first using the datasets, change to False for save of calculation
-        negTable = dataloader(pathNeg, "DriverBase/trainN.xls", True)
+        posTable = dataloader(pathPos, "DriverBase/trainY.csv", True)  # Use True when first using the datasets, change to False to avoid additional calculation
+        negTable = dataloader(pathNeg, "DriverBase/trainN.csv", True)
         pos_array = table_to_npy(posTable)
         neg_array = table_to_npy(negTable)
         orig_dataset = get_dataset(pos_array, neg_array)
-    print(orig_dataset.shape)
+    print("Transferred dataset shape:", orig_dataset.shape)
     np.save(output_path, orig_dataset)

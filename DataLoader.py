@@ -11,6 +11,7 @@ import numpy as np
 #from sklearn.preprocessing import Imputer
 from sklearn.impute import SimpleImputer as Imputer
 import argparse
+import csv
 
 def small_dataloader(dir, out_dir, transfer=False):
     if transfer:
@@ -37,10 +38,20 @@ def small_dataloader(dir, out_dir, transfer=False):
 
 def dataloader(dir, out_dir, transfer=False):
     if transfer:
-        data = pd.read_excel(dir, 'Sheet1', index_col=0)
-        data.to_csv(out_dir, encoding='utf-8')
-    tb = pd.read_csv(out_dir, delimiter=",")
+        filename = dir
+        file1 = io.open(filename, "r", encoding="utf8")
+        data = file1.readlines()
+        f = open(out_dir, 'w')
+        csv_writer = csv.writer(f)
+        for i, row in enumerate(data):
+            row_list = []
+            for j, val in enumerate(row.replace('\n', '').split('\t')):
+                row_list.append(val)
+            csv_writer.writerow(row_list)
+        f.close()
+    tb = pd.read_csv(out_dir)
     return tb
+
 
 def table_to_npy(table):
     """

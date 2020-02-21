@@ -9,7 +9,7 @@ AI-Driver is a ...
 ### Environment Requirement
 You can install the environment by
 ```python
-conda create -n python3 python=3 xgboost=0.90 scikit-learn=0.221 xlrd xlwt pandas shap 
+conda create -n python3 python=3 xgboost=0.90 scikit-learn=0.221 xlrd xlwt pandas shap xlutils
 ```
 where the used packages include
 * Python 3.6

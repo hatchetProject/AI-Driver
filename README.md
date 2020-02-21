@@ -7,7 +7,7 @@ AI-Driver is a ...
 
 ## Usage
 ### Environment Requirement
-You can install the environment by using conda. Please install [anaconda] (https://docs.anaconda.com/anaconda/install/) before install AI-Driver.
+You can install the environment by using conda after installing [Anaconda] (https://docs.anaconda.com/anaconda/install/).
 ```python
 conda create -n python3 python=3 xgboost=0.90 scikit-learn=0.221 xlrd xlwt pandas shap xlutils
 ```

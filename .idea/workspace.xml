@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="26369a89-c8b3-4d5c-8784-0f09c6d999b0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataLoader.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataLoader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -44,7 +42,7 @@
       <option name="presentableId" value="Default" />
       <updated>1581432337714</updated>
       <workItem from="1581432341422" duration="6274000" />
-      <workItem from="1581602673397" duration="54862000" />
+      <workItem from="1581602673397" duration="55254000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <created>1581433732646</created>
@@ -144,7 +142,21 @@
       <option name="project" value="LOCAL" />
       <updated>1582269444841</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="update DataLoader and test">
+      <created>1582346035679</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1582346035679</updated>
+    </task>
+    <task id="LOCAL-00016" summary="update DataLoader and test">
+      <created>1582346174523</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1582346174523</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -170,6 +182,7 @@
     <MESSAGE value="update code" />
     <MESSAGE value="update DataLoader" />
     <MESSAGE value="update dataloader() in DataLoader.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="update dataloader() in DataLoader.py" />
+    <MESSAGE value="update DataLoader and test" />
+    <option name="LAST_COMMIT_MESSAGE" value="update DataLoader and test" />
   </component>
 </project>

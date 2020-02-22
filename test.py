@@ -75,7 +75,7 @@ def test_and_evaluate(test_x, test_y, model):
     print ("Precision: ", precision_score(test_y, y_result))
     print ("Recall: ", recall_score(test_y, y_result))
     print ("F1 Score: ", f1_score(test_y, y_result))
-    #print("AUC: ", roc_auc_score(test_y, y_prob[:, -1]))
+    print("AUC: ", roc_auc_score(test_y, y_prob[:, -1]))
 
 def save_xls(test_x, test_y, model, label_path, file_name):
     y_prob = model.predict_proba(test_x)

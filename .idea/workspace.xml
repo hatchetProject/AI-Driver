@@ -3,10 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="26369a89-c8b3-4d5c-8784-0f09c6d999b0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataLoader.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataLoader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -46,7 +42,7 @@
       <updated>1581432337714</updated>
       <workItem from="1581432341422" duration="6274000" />
       <workItem from="1581602673397" duration="58244000" />
-      <workItem from="1582351919033" duration="963000" />
+      <workItem from="1582351919033" duration="3581000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <created>1581433732646</created>
@@ -167,7 +163,21 @@
       <option name="project" value="LOCAL" />
       <updated>1582346355658</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="update DataLoader.py and test.py, adding a parameter">
+      <created>1582352962521</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1582352962521</updated>
+    </task>
+    <task id="LOCAL-00019" summary="update DataLoader.py and test.py, adding a parameter">
+      <created>1582353000090</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1582353000090</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -195,6 +205,7 @@
     <MESSAGE value="update dataloader() in DataLoader.py" />
     <MESSAGE value="update DataLoader and test" />
     <MESSAGE value="update test" />
-    <option name="LAST_COMMIT_MESSAGE" value="update test" />
+    <MESSAGE value="update DataLoader.py and test.py, adding a parameter" />
+    <option name="LAST_COMMIT_MESSAGE" value="update DataLoader.py and test.py, adding a parameter" />
   </component>
 </project>

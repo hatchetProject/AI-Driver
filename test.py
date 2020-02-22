@@ -6,9 +6,9 @@ from utils import *
 import xlwt
 from sklearn.metrics import matthews_corrcoef
 from xlrd import open_workbook
-from xlutils.copy import copy
 import matplotlib.pyplot as plt
 import argparse
+import os
 
 def all_train(train_x_orig, train_y_orig, train_x_phred, train_y_phred):
     ## Get the two models (using original and Phred) trained on all samples
@@ -97,6 +97,16 @@ def save_xls(test_x, test_y, model, label_path, file_name):
         booksheet.write(i+1, 13, float(y_prob[i][1]))
     workbook.save(file_name)
 
+def save_csv(test_x, test_y, model, label_path, file_name):
+    y_prob = model.predict_proba(test_x)
+    _, tpr, _ = roc_curve(test_y, y_prob[:, -1])
+    labeling = np.load(label_path, allow_pickle=True)
+    title = ["Chr", "Start", "End", "Ref", "Alt", "Gene_system", "region", "Gene_symbol", "Effect", "Mutation_type",
+             "AA_change", "Cytoband", "False", "True"]
+    print(y_prob.shape, labeling.shape)
+    result = np.concatenate((labeling, y_prob), axis=1)
+    np.savetxt(file_name, result, delimiter="\t", fmt = '%s')
+
 def train():
     ## Training and saving model, this part only need to be done once
     ## Train on whole training dataset
@@ -120,6 +130,7 @@ def train():
     dataset_orig_x = np.delete(dataset_orig_x, [23, 24, 25], axis=1)
     dataset_phred_x = np.delete(dataset_phred_x, [23, 24, 25], axis=1)
     cleaned_train(dataset_orig_x, dataset_orig_y, dataset_phred_x, dataset_phred_y)
+
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
@@ -150,13 +161,15 @@ if __name__=="__main__":
         model_xgbt_all = joblib.load("model/xgboost_orig_all.pkl")
         if label_exist == "True":
             test_and_evaluate(dataset_x, dataset_y, model_xgbt_all)
-        save_xls(dataset_x, dataset_y, model_xgbt_all, label_path, output_path+"xgboost_orig.xls")
+        #save_xls(dataset_x, dataset_y, model_xgbt_all, label_path, output_path+"xgboost_orig.xls")
+        save_csv(dataset_x, dataset_y, model_xgbt_all, label_path, os.path.join(output_path, "xgboost_orig.csv"))
 
         print("Testing on XGBoost trained with cleaned training set")
         model_xgbt_cleaned = joblib.load("model/xgboost_orig_cleaned.pkl")
         if label_exist == "True":
             test_and_evaluate(dataset_x, dataset_y, model_xgbt_cleaned)
-        save_xls(dataset_x, dataset_y, model_xgbt_cleaned, label_path, output_path+"xgboost_orig_cleaned.xls")
+        #save_xls(dataset_x, dataset_y, model_xgbt_cleaned, label_path, output_path+"xgboost_orig_cleaned.xls")
+        save_csv(dataset_x, dataset_y, model_xgbt_all, label_path, os.path.join(output_path, "xgboost_orig_cleaned.csv"))
 
     elif d_type == "phred":
         print("Testing on Phred dataset")
@@ -164,12 +177,15 @@ if __name__=="__main__":
         model_xgbt_all = joblib.load("model/xgboost_phred_all.pkl")
         if label_exist == "True":
             test_and_evaluate(dataset_x, dataset_y, model_xgbt_all)
-        save_xls(dataset_x, dataset_y, model_xgbt_all, label_path, output_path+"xgboost_phred.xls")
+        #save_xls(dataset_x, dataset_y, model_xgbt_all, label_path, output_path+"xgboost_phred.xls")
+        save_csv(dataset_x, dataset_y, model_xgbt_all, label_path, os.path.join(output_path, "xgboost_phred.csv"))
 
         print("Testing on XGBoost trained with cleaned training set")
         model_xgbt_cleaned = joblib.load("model/xgboost_phred_cleaned.pkl")
         if label_exist == "True":
             test_and_evaluate(dataset_x, dataset_y, model_xgbt_cleaned)
-        save_xls(dataset_x, dataset_y, model_xgbt_cleaned, label_path, output_path+"xgboost_phred_cleaned.xls")
+        #save_xls(dataset_x, dataset_y, model_xgbt_cleaned, label_path, output_path+"xgboost_phred_cleaned.xls")
+        save_csv(dataset_x, dataset_y, model_xgbt_all, label_path, os.path.join(output_path, "xgboost_phred_cleaned.csv"))
     else:
         print("Data type not allowed Refer to --help for more information")
+

@@ -26,13 +26,13 @@ where the used packages include
 * Then run train.py by indicating the specific dataset and method. We use 10-fold cross-validation to determine the best parameters for each method. The datasets include original version, original+cleaned version, Phred version, Phred+cleaned version.The source of dataset can be changed according to your preference. Also, the range of parameters to be selected can be founded and changed in utils.py.  
 * Analysis and testing of the models can be done in analyze.py and test.py.
 * outlier_detect.py uses Isolation Forest to detect outliers in data and remove them from the dataset. The new datasets are "cleaned".
-* The procedure can be described as the following code:
+* The basic usage is described as below:
 ```python
-python DataLoader.py -pp POSITIVE_PATH -pn NEGATIVE_PATH -op OUTPUT_PATH -lp LABEL_PATH
+python DataLoader.py -pp POSITIVE_PATH -pn NEGATIVE_PATH -op OUTPUT_PATH -lp LABEL_PATH -l TEST_LABEL_EXIST
 python outlier_detect.py -ip INPUT_PATH -op OUTPUT_PATH -t DATA_TYPE
 python train.py -d DATA_TYPE -m METHOD
 python analyze.py -d DATA_FORM -p DATA_PATH
-python test.py -f TRAIN -d DATA_TYPE -tp TEST_PATH -of OUTPUT_FOLDER -lp LABEL_PATH
+python test.py -f TRAIN -d DATA_TYPE -tp TEST_PATH -of OUTPUT_FOLDER -lp LABEL_PATH -l TEST_LABEL_EXIST
 ```
 #### Introduction to the parameters:
 * Running DataLoader.py transforms the original xls files into npy file for continuous experiments. Missing value imputation 
@@ -40,7 +40,7 @@ and random shuffling of data is also done. POSITIVE_PATH indicates the path for 
 NEGATIVE_PATH indicates the path for negative training samples, OUTPUT_PATH indicates the path for outputing transferred 
 xls files into npy file path (for example: DriverBase/Orig_Data.npy). Set NEGATIVE_PATH to "None" to transfer a single xls file into npy format. LABEL_PATH
 is for storing the label information of test data. If you are running DataLoader.py on training data, ignore this term. Note that this LABEL_PATH should be consistent
-with the one in test.py's hyperparameters. 
+with the one in test.py's hyperparameters. Set TEST_LABEL_EXIST to True if you are running DataLoader.py on test data with labels provided. Otherwise leave it as default.
 * outlier_detect.py is not compulsory, only adopted if removing outliers is useful. We use Isolation Forest to remove the outliers from the
 data. INPUT_PATH is the path of DataLoader.py's OUTPUT_PATH, OUTPUT_PATH is for data with outliers removed (e.g. DriverBase/cleaned_data_orig.npy), 
 and DATA_TYPE chosen from {"orig", "phred"}. Specific introduction can be found by using --help command. 
@@ -52,7 +52,24 @@ parameters for analysis (the best parameters for XGBoost are already available i
 the path for data. DATA_FORM takes a value from {"orig", "phred", "test"}. If you choose "test", the data provided should be only from test dataset.
 * test.py does the testing. Model parameters need to be copied, models are saved during testing. If TRAIN is set to True, then train and save models according to the best parameters, else no training is done. Thus
 TRAIN should be set to True for the first time and the other times are optional. DATA_TYPE should take from {"orig", "phred"}, TEST_PATH is the path of test data. OUTPUT_FOLDER is a folder for saving prediction results, 
-usually can make it the same directory as test data. LABEL_PATH is for loading the label information to generate output xls files. This path should be consistent with the one you indicated in DataLoader.py.
+usually can make it the same directory as test data. LABEL_PATH is for loading the label information to generate output xls files. This path should be consistent with the one you indicated in DataLoader.py. Set TEST_LABEL_EXIST 
+to True if you are running test.py on test data with labels provided. Otherwise leave it as default.
   
+#### An example of usage
+```python
+# Training
+python DataLoader.py -pp DriverBase/training_Y_orig.xls -pn DriverBase/training_N_orig.xls -op DriverBase/Orig_Data.npy 
+python DataLoader.py -pp DriverBase/training_Y_Phred.xls -pn DriverBase/training_N_Phred.xls -op DriverBase/Phred_Data.npy
+# Remove outliers from data, run the following command if removing is useful (but anyway you need to run this to see if it works)
+python outlier_detect.py -ip DriverBase/Orig_Data.npy -op DriverBase/cleaned_data_orig.npy -t orig
+python outlier_detect.py -ip DriverBase/Phred_Data.npy -op DriverBase/cleaned_data_phred.npy -t phred
+# Perform training on the data using 10-fold cross-validation and determine best parameters using Grid-search. We only test XGBoost on cleaned Phred data for now
+python train.py -d phred_cleaned -m xgbt
+# Testing
+python DataLoader.py -pp Test_Data_Final/Pancancer/Pancancer_positive_orig.xls -pn Test_Data_Final/Pancancer/Pancancer_negative_orig.xls -op Test_Data_Final/Pancancer/Phred_Data.npy -lp Test_Data_Final/Pancancer/label_phred.npy
+python test.py -f True -d phred -tp Test_Data_Final/Pancancer/Phred_Data.npy -of Test_Data_Final/Pancancer/ -lp Test_Data_Final/Pancancer/label_phred.npy
+```
+
+
 
 ### Copyright

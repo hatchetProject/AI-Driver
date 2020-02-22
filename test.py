@@ -128,12 +128,14 @@ if __name__=="__main__":
     parser.add_argument("-tp", "--test_path", default="Test_Data_Final/Pancancer/Orig_Data.npy", help="Test data type")
     parser.add_argument("-of", "--output_folder", default="Test_Data_Final/Pancancer/")
     parser.add_argument("-lp", "--label_path", default="DriverBase/Orig_Label.npy")
+    parser.add_argument("-l", "--labelExist", default="False", help="Whether label for test data exists. Set it to True if you are using test data and its label exists.")
     args = parser.parse_args()
     train_f = args.train_flag
     d_type = args.data_type
     test_path = args.test_path
     output_path = args.output_folder
     label_path = args.label_path
+    label_exist = args.labelExist
     ## Training process
     if train_f == "True":
         train()
@@ -146,24 +148,28 @@ if __name__=="__main__":
         print("Test on original dataset")
         print("Testing on XGBoost trained with whole training set")
         model_xgbt_all = joblib.load("model/xgboost_orig_all.pkl")
-        test_and_evaluate(dataset_x, dataset_y, model_xgbt_all)
+        if label_exist == "True":
+            test_and_evaluate(dataset_x, dataset_y, model_xgbt_all)
         save_xls(dataset_x, dataset_y, model_xgbt_all, label_path, output_path+"xgboost_orig.xls")
 
         print("Testing on XGBoost trained with cleaned training set")
         model_xgbt_cleaned = joblib.load("model/xgboost_orig_cleaned.pkl")
-        test_and_evaluate(dataset_x, dataset_y, model_xgbt_cleaned)
+        if label_exist == "True":
+            test_and_evaluate(dataset_x, dataset_y, model_xgbt_cleaned)
         save_xls(dataset_x, dataset_y, model_xgbt_cleaned, label_path, output_path+"xgboost_orig_cleaned.xls")
 
     elif d_type == "phred":
         print("Testing on Phred dataset")
         print("Testing on XGBoost trained with whole training set")
         model_xgbt_all = joblib.load("model/xgboost_phred_all.pkl")
-        test_and_evaluate(dataset_x, dataset_y, model_xgbt_all)
+        if label_exist == "True":
+            test_and_evaluate(dataset_x, dataset_y, model_xgbt_all)
         save_xls(dataset_x, dataset_y, model_xgbt_all, label_path, output_path+"xgboost_phred.xls")
 
         print("Testing on XGBoost trained with cleaned training set")
         model_xgbt_cleaned = joblib.load("model/xgboost_phred_cleaned.pkl")
-        test_and_evaluate(dataset_x, dataset_y, model_xgbt_cleaned)
+        if label_exist == "True":
+            test_and_evaluate(dataset_x, dataset_y, model_xgbt_cleaned)
         save_xls(dataset_x, dataset_y, model_xgbt_cleaned, label_path, output_path+"xgboost_phred_cleaned.xls")
     else:
         print("Data type not allowed Refer to --help for more information")

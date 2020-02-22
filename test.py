@@ -101,11 +101,13 @@ def save_csv(test_x, test_y, model, label_path, file_name):
     y_prob = model.predict_proba(test_x)
     _, tpr, _ = roc_curve(test_y, y_prob[:, -1])
     labeling = np.load(label_path, allow_pickle=True)
-    title = ["Chr", "Start", "End", "Ref", "Alt", "Gene_system", "region", "Gene_symbol", "Effect", "Mutation_type",
-             "AA_change", "Cytoband", "False", "True"]
+    title = np.array([["Chr", "Start", "End", "Ref", "Alt", "Gene_system", "region", "Gene_symbol", "Effect", "Mutation_type",
+             "AA_change", "Cytoband", "False", "True"]])
     print(y_prob.shape, labeling.shape)
     result = np.concatenate((labeling, y_prob), axis=1)
-    np.savetxt(file_name, result, delimiter="\t", fmt = '%s')
+    result = np.concatenate((title, result), axis=0)
+    print(result.shape)
+    np.savetxt(file_name, result, delimiter="\t", fmt ='%s')
 
 def train():
     ## Training and saving model, this part only need to be done once

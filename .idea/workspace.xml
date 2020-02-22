@@ -42,7 +42,7 @@
       <updated>1581432337714</updated>
       <workItem from="1581432341422" duration="6274000" />
       <workItem from="1581602673397" duration="58244000" />
-      <workItem from="1582351919033" duration="3581000" />
+      <workItem from="1582351919033" duration="4942000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <created>1581433732646</created>
@@ -177,7 +177,14 @@
       <option name="project" value="LOCAL" />
       <updated>1582353000090</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="update test.py">
+      <created>1582359996323</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1582359996323</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -206,6 +213,7 @@
     <MESSAGE value="update DataLoader and test" />
     <MESSAGE value="update test" />
     <MESSAGE value="update DataLoader.py and test.py, adding a parameter" />
-    <option name="LAST_COMMIT_MESSAGE" value="update DataLoader.py and test.py, adding a parameter" />
+    <MESSAGE value="update test.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="update test.py" />
   </component>
 </project>

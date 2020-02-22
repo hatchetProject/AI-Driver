@@ -100,7 +100,6 @@ def save_xls(test_x, test_y, model, label_path, file_name):
 def save_csv(test_x, test_y, model, label_path, file_name, driverfile, nondriverfile):
     y_prob = model.predict_proba(test_x)
     y_result = model.predict(test_x)
-    _, tpr, _ = roc_curve(test_y, y_prob[:, -1])
     labeling = np.load(label_path, allow_pickle=True)
     title = np.array([["Chr", "Start", "End", "Ref", "Alt", "Gene_system", "region", "Gene_symbol", "Effect", "Mutation_type",
              "AA_change", "Cytoband", "False", "True"]])

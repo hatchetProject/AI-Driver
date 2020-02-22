@@ -75,16 +75,23 @@ def test_and_evaluate(test_x, test_y, model):
     print ("Precision: ", precision_score(test_y, y_result))
     print ("Recall: ", recall_score(test_y, y_result))
     print ("F1 Score: ", f1_score(test_y, y_result))
-    print("AUC: ", roc_auc_score(test_y, y_prob[:, -1]))
+    #print("AUC: ", roc_auc_score(test_y, y_prob[:, -1]))
 
-def save_xls(test_x, test_y, model, file_name):
+def save_xls(test_x, test_y, model, label_path, file_name):
     y_prob = model.predict_proba(test_x)
     _, tpr, _ = roc_curve(test_y, y_prob[:, -1])
-
+    labeling = np.load(label_path, allow_pickle=True)
+    title = ["Chr", "Start", "End", "Ref", "Alt", "Gene_system", "region", "Gene_symbol", "Effect", "Mutation_type", "AA_change", "Cytoband", "False", "True"]
     workbook = xlwt.Workbook(encoding="utf-8")
     booksheet = workbook.add_sheet("sheet1", cell_overwrite_ok=True)
-    booksheet.write(0, 12, "false")
-    booksheet.write(0, 13, "true")
+    for i in range(len(title)):
+        booksheet.write(0, i, title[i])
+    for i in range(labeling.shape[0]):
+        for j in range(labeling.shape[1]):
+            if j == 7 or j == 10:
+                booksheet.write(i+1, j, labeling[i][j][1:-1])
+            else:
+                booksheet.write(i + 1, j, labeling[i][j])
     for i in range(y_prob.shape[0]):
         booksheet.write(i+1, 12, float(y_prob[i][0]))
         booksheet.write(i+1, 13, float(y_prob[i][1]))
@@ -120,12 +127,13 @@ if __name__=="__main__":
     parser.add_argument("-d", "--data_type", default="orig", help="Data type of the test data")
     parser.add_argument("-tp", "--test_path", default="Test_Data_Final/Pancancer/Orig_Data.npy", help="Test data type")
     parser.add_argument("-of", "--output_folder", default="Test_Data_Final/Pancancer/")
+    parser.add_argument("-lp", "--label_path", default="DriverBase/Orig_Label.npy")
     args = parser.parse_args()
     train_f = args.train_flag
     d_type = args.data_type
     test_path = args.test_path
     output_path = args.output_folder
-
+    label_path = args.label_path
     ## Training process
     if train_f == "True":
         train()
@@ -139,23 +147,23 @@ if __name__=="__main__":
         print("Testing on XGBoost trained with whole training set")
         model_xgbt_all = joblib.load("model/xgboost_orig_all.pkl")
         test_and_evaluate(dataset_x, dataset_y, model_xgbt_all)
-        save_xls(dataset_x, dataset_y, model_xgbt_all, output_path+"xgboost_orig.xls")
+        save_xls(dataset_x, dataset_y, model_xgbt_all, label_path, output_path+"xgboost_orig.xls")
 
         print("Testing on XGBoost trained with cleaned training set")
         model_xgbt_cleaned = joblib.load("model/xgboost_orig_cleaned.pkl")
         test_and_evaluate(dataset_x, dataset_y, model_xgbt_cleaned)
-        save_xls(dataset_x, dataset_y, model_xgbt_cleaned, output_path+"xgboost_orig_cleaned.xls")
+        save_xls(dataset_x, dataset_y, model_xgbt_cleaned, label_path, output_path+"xgboost_orig_cleaned.xls")
 
     elif d_type == "phred":
         print("Testing on Phred dataset")
         print("Testing on XGBoost trained with whole training set")
         model_xgbt_all = joblib.load("model/xgboost_phred_all.pkl")
         test_and_evaluate(dataset_x, dataset_y, model_xgbt_all)
-        save_xls(dataset_x, dataset_y, model_xgbt_all, output_path+"xgboost_phred.xls")
+        save_xls(dataset_x, dataset_y, model_xgbt_all, label_path, output_path+"xgboost_phred.xls")
 
         print("Testing on XGBoost trained with cleaned training set")
         model_xgbt_cleaned = joblib.load("model/xgboost_phred_cleaned.pkl")
         test_and_evaluate(dataset_x, dataset_y, model_xgbt_cleaned)
-        save_xls(dataset_x, dataset_y, model_xgbt_cleaned, output_path+"xgboost_phred_cleaned.xls")
+        save_xls(dataset_x, dataset_y, model_xgbt_cleaned, label_path, output_path+"xgboost_phred_cleaned.xls")
     else:
         print("Data type not allowed Refer to --help for more information")

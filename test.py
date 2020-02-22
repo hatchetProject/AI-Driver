@@ -97,17 +97,24 @@ def save_xls(test_x, test_y, model, label_path, file_name):
         booksheet.write(i+1, 13, float(y_prob[i][1]))
     workbook.save(file_name)
 
-def save_csv(test_x, test_y, model, label_path, file_name):
+def save_csv(test_x, test_y, model, label_path, file_name, driverfile, nondriverfile):
     y_prob = model.predict_proba(test_x)
+    y_result = model.predict(test_x)
     _, tpr, _ = roc_curve(test_y, y_prob[:, -1])
     labeling = np.load(label_path, allow_pickle=True)
     title = np.array([["Chr", "Start", "End", "Ref", "Alt", "Gene_system", "region", "Gene_symbol", "Effect", "Mutation_type",
              "AA_change", "Cytoband", "False", "True"]])
-    print(y_prob.shape, labeling.shape)
     result = np.concatenate((labeling, y_prob), axis=1)
     result = np.concatenate((title, result), axis=0)
-    print(result.shape)
-    np.savetxt(file_name, result, delimiter="\t", fmt ='%s')
+    np.savetxt(file_name, result, delimiter="\t", fmt='%s')
+
+    pos_label = np.where(y_result==0)[0]
+    neg_label = np.where(y_result==1)[0]
+    new_title = np.array([["Chr", "Start", "End", "Ref", "Alt", "Gene_system", "region", "Gene_symbol", "Effect", "Mutation_type",
+             "AA_change", "Cytoband"]])
+    np.savetxt(driverfile, np.concatenate((new_title, labeling[pos_label])), delimiter="\t", fmt="%s")
+    np.savetxt(nondriverfile, np.concatenate((new_title, labeling[neg_label])), delimiter="\t", fmt="%s")
+
 
 def train():
     ## Training and saving model, this part only need to be done once
@@ -164,14 +171,16 @@ if __name__=="__main__":
         if label_exist == "True":
             test_and_evaluate(dataset_x, dataset_y, model_xgbt_all)
         #save_xls(dataset_x, dataset_y, model_xgbt_all, label_path, output_path+"xgboost_orig.xls")
-        save_csv(dataset_x, dataset_y, model_xgbt_all, label_path, os.path.join(output_path, "xgboost_orig.csv"))
+        save_csv(dataset_x, dataset_y, model_xgbt_all, label_path, os.path.join(output_path, "xgboost_orig.csv"),
+                 os.path.join(output_path, "xgboost_orig_driver.csv"), os.path.join(output_path, "xgboost_orig_passenger.csv"))
 
         print("Testing on XGBoost trained with cleaned training set")
         model_xgbt_cleaned = joblib.load("model/xgboost_orig_cleaned.pkl")
         if label_exist == "True":
             test_and_evaluate(dataset_x, dataset_y, model_xgbt_cleaned)
         #save_xls(dataset_x, dataset_y, model_xgbt_cleaned, label_path, output_path+"xgboost_orig_cleaned.xls")
-        save_csv(dataset_x, dataset_y, model_xgbt_all, label_path, os.path.join(output_path, "xgboost_orig_cleaned.csv"))
+        save_csv(dataset_x, dataset_y, model_xgbt_all, label_path, os.path.join(output_path, "xgboost_orig_cleaned.csv"),
+                 os.path.join(output_path, "xgboost_orig_cleaned_driver.csv"), os.path.join(output_path, "xgboost_orig_cleaned_passenger.csv"))
 
     elif d_type == "phred":
         print("Testing on Phred dataset")
@@ -180,14 +189,16 @@ if __name__=="__main__":
         if label_exist == "True":
             test_and_evaluate(dataset_x, dataset_y, model_xgbt_all)
         #save_xls(dataset_x, dataset_y, model_xgbt_all, label_path, output_path+"xgboost_phred.xls")
-        save_csv(dataset_x, dataset_y, model_xgbt_all, label_path, os.path.join(output_path, "xgboost_phred.csv"))
+        save_csv(dataset_x, dataset_y, model_xgbt_all, label_path, os.path.join(output_path, "xgboost_phred.csv"),
+                 os.path.join(output_path, "xgboost_phred_driver.csv"), os.path.join(output_path, "xgboost_phred_passenger.csv"))
 
         print("Testing on XGBoost trained with cleaned training set")
         model_xgbt_cleaned = joblib.load("model/xgboost_phred_cleaned.pkl")
         if label_exist == "True":
             test_and_evaluate(dataset_x, dataset_y, model_xgbt_cleaned)
         #save_xls(dataset_x, dataset_y, model_xgbt_cleaned, label_path, output_path+"xgboost_phred_cleaned.xls")
-        save_csv(dataset_x, dataset_y, model_xgbt_all, label_path, os.path.join(output_path, "xgboost_phred_cleaned.csv"))
+        save_csv(dataset_x, dataset_y, model_xgbt_all, label_path, os.path.join(output_path, "xgboost_phred_cleaned.csv"),
+                 os.path.join(output_path, "xgboost_phred_cleaned_driver.csv"), os.path.join(output_path, "xgboost_phred_cleaned_passenger.csv"))
     else:
         print("Data type not allowed Refer to --help for more information")
 

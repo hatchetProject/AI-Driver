@@ -178,7 +178,7 @@ if __name__=="__main__":
         if label_exist == "True":
             test_and_evaluate(dataset_x, dataset_y, model_xgbt_cleaned)
         #save_xls(dataset_x, dataset_y, model_xgbt_cleaned, label_path, output_path+"xgboost_orig_cleaned.xls")
-        save_csv(dataset_x, dataset_y, model_xgbt_all, label_path, os.path.join(output_path, "xgboost_orig_cleaned.csv"),
+        save_csv(dataset_x, dataset_y, model_xgbt_cleaned, label_path, os.path.join(output_path, "xgboost_orig_cleaned.csv"),
                  os.path.join(output_path, "xgboost_orig_cleaned_driver.csv"), os.path.join(output_path, "xgboost_orig_cleaned_passenger.csv"))
 
     elif d_type == "phred":
@@ -196,7 +196,7 @@ if __name__=="__main__":
         if label_exist == "True":
             test_and_evaluate(dataset_x, dataset_y, model_xgbt_cleaned)
         #save_xls(dataset_x, dataset_y, model_xgbt_cleaned, label_path, output_path+"xgboost_phred_cleaned.xls")
-        save_csv(dataset_x, dataset_y, model_xgbt_all, label_path, os.path.join(output_path, "xgboost_phred_cleaned.csv"),
+        save_csv(dataset_x, dataset_y, model_xgbt_cleaned, label_path, os.path.join(output_path, "xgboost_phred_cleaned.csv"),
                  os.path.join(output_path, "xgboost_phred_cleaned_driver.csv"), os.path.join(output_path, "xgboost_phred_cleaned_passenger.csv"))
     else:
         print("Data type not allowed Refer to --help for more information")

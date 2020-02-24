@@ -107,10 +107,10 @@ def get_test_dataset(dataset):
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-pp", "--pathPositive", default="DriverBase/training_Y_orig.xlsx", help="Input positive data path.")
+    parser.add_argument("-pp", "--pathPositive", default="DriverBase/training_Y_orig.xlsx", help="Input positive data path. Allowed input data type is xls")
     parser.add_argument("-pn", "--pathNegative", default="DriverBase/training_N_orig.xlsx", help="Input negative data path. Set it to None if you are using test data without labels")
     parser.add_argument("-op", "--outPath", default="DriverBase/Orig_Data.npy", help="Ouput data path.")
-    parser.add_argument("-lp", "--labelPath", default="DriverBase/Orig_Label.npy", help="Test data label path.")
+    parser.add_argument("-lp", "--labelPath", default="DriverBase/Orig_Label.npy", help="Test data label path. This is for storing the  information, especially for test data. Storing values and ")
     parser.add_argument("-l", "--labelExist", default="False", help="Whether label for test data exists. Set it to True if you are using test data and its label exists.")
     args = parser.parse_args()
     pathPos = args.pathPositive

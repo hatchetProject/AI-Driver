@@ -107,8 +107,8 @@ def save_csv(test_x, test_y, model, label_path, file_name, driverfile, nondriver
     result = np.concatenate((title, result), axis=0)
     np.savetxt(file_name, result, delimiter="\t", fmt='%s')
 
-    pos_label = np.where(y_result==0)[0]
-    neg_label = np.where(y_result==1)[0]
+    pos_label = np.where(y_result==1)[0]
+    neg_label = np.where(y_result==0)[0]
     new_title = np.array([["Chr", "Start", "End", "Ref", "Alt", "Gene_system", "region", "Gene_symbol", "Effect", "Mutation_type",
              "AA_change", "Cytoband"]])
     np.savetxt(driverfile, np.concatenate((new_title, labeling[pos_label])), delimiter="\t", fmt="%s")
@@ -144,7 +144,7 @@ if __name__=="__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-f", "--train_flag", default="True", help="Perform training or not. Only need to train the first time, if models already saved, set this to False")
     parser.add_argument("-d", "--data_type", default="orig", help="Data type of the test data")
-    parser.add_argument("-tp", "--test_path", default="Test_Data_Final/Pancancer/Orig_Data.npy", help="Test data type")
+    parser.add_argument("-tp", "--test_path", default="Test_Data_Final/Pancancer/Orig_Data.npy", help="Test data path")
     parser.add_argument("-of", "--output_folder", default="Test_Data_Final/Pancancer/")
     parser.add_argument("-lp", "--label_path", default="DriverBase/Orig_Label.npy")
     parser.add_argument("-l", "--labelExist", default="False", help="Whether label for test data exists. Set it to True if you are using test data and its label exists.")

@@ -56,6 +56,7 @@ usually can make it the same directory as test data. LABEL_PATH is for loading t
 to True if you are running test.py on test data with labels provided. Otherwise leave it as default.
   
 #### An example of usage
+We provide an exmaple of how to use the code 
 ```python
 # Training
 python DataLoader.py -pp DriverBase/training_Y_orig.xls -pn DriverBase/training_N_orig.xls -op DriverBase/Orig_Data.npy 
@@ -69,7 +70,8 @@ python train.py -d phred_cleaned -m xgbt
 python DataLoader.py -pp Test_Data_Final/Pancancer/Pancancer_positive_orig.xls -pn Test_Data_Final/Pancancer/Pancancer_negative_orig.xls -op Test_Data_Final/Pancancer/Phred_Data.npy -lp Test_Data_Final/Pancancer/label_phred.npy -l True
 python test.py -f True -d phred -tp Test_Data_Final/Pancancer/Phred_Data.npy -of Test_Data_Final/Pancancer/ -lp Test_Data_Final/Pancancer/label_phred.npy -l True
 ```
-
+#### Notes for running code
+- 
 
 
 ### Copyright

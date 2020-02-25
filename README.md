@@ -56,7 +56,7 @@ TRAIN should be set to True for the first time and the other times are optional.
 usually can make it the same directory as test data. LABEL_PATH is for loading the label information to generate output xls files. This path should be consistent with the one you indicated in DataLoader.py. Set TEST_LABEL_EXIST 
 to True if you are running test.py on test data with labels provided. Otherwise leave it as default.
   
-#### An example of usage
+### Examples
 We provide some exmaples to show how to use the code 
 
 #### Training

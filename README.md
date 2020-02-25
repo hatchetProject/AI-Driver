@@ -78,9 +78,9 @@ python train.py -d phred_cleaned -m xgbt
 python DataLoader.py -pp Test_Data_Final/Pancancer/Pancancer_positive_orig.xls -pn Test_Data_Final/Pancancer/Pancancer_negative_orig.xls -op Test_Data_Final/Pancancer/Phred_Data.npy -lp Test_Data_Final/Pancancer/label_phred.npy -l True
 python test.py -f True -d phred -tp Test_Data_Final/Pancancer/Phred_Data.npy -of Test_Data_Final/Pancancer/ -lp Test_Data_Final/Pancancer/label_phred.npy -l True
 ```
-* Evaluate the performance. ??????
+* Evaluate the performance based on 10-fold cross-validation and independent test data. ??????
 ```python
-analyze.py???
+analyze.py   ???
 ```
 #### Notes for running code
 - 

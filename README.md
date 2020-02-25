@@ -3,7 +3,7 @@ AI-Driver is a ...
 
 ## Download
 * Clone and fork code and from this repository.
-* Train data is available in the DriverBase folder, 23 features of whole exome for each possible variants can be downloaded [Here](http://47.89.179.59/download/varcards.main.Phred_scaled.xls.gz).
+* Train data is available in the DriverBase folder, 23 features of whole exome for any possible variant can be downloaded [Here](http://47.89.179.59/download/varcards.main.Phred_scaled.xls.gz).
 
 ## Usage
 ### Environment Requirement

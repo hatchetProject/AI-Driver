@@ -69,11 +69,11 @@ python DataLoader.py -pp DriverBase/training_Y_Phred.xls -pn DriverBase/training
 python outlier_detect.py -ip DriverBase/Orig_Data.npy -op DriverBase/cleaned_data_orig.npy -t orig
 python outlier_detect.py -ip DriverBase/Phred_Data.npy -op DriverBase/cleaned_data_phred.npy -t phred
 ```
-* Perform training on the data using 10-fold cross-validation and determine best parameters using grid-search. We employ XGBoost to build cleaned Phred-scaled model using -m "xgbt" and -d "phred_cleaned".
+* Perform training on the data using 10-fold cross-validation and determine best parameters using grid-search. We can employ XGBoost to build a cleaned Phred-scaled model using -m "xgbt" and -d "phred_cleaned".
 ```python
 python train.py -d phred_cleaned -m xgbt
 ```
-* Testing
+* Testing using independent data.
 ```python
 python DataLoader.py -pp Test_Data_Final/Pancancer/Pancancer_positive_orig.xls -pn Test_Data_Final/Pancancer/Pancancer_negative_orig.xls -op Test_Data_Final/Pancancer/Phred_Data.npy -lp Test_Data_Final/Pancancer/label_phred.npy -l True
 python test.py -f True -d phred -tp Test_Data_Final/Pancancer/Phred_Data.npy -of Test_Data_Final/Pancancer/ -lp Test_Data_Final/Pancancer/label_phred.npy -l True

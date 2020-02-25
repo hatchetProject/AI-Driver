@@ -69,7 +69,7 @@ python DataLoader.py -pp DriverBase/training_Y_Phred.xls -pn DriverBase/training
 python outlier_detect.py -ip DriverBase/Orig_Data.npy -op DriverBase/cleaned_data_orig.npy -t orig
 python outlier_detect.py -ip DriverBase/Phred_Data.npy -op DriverBase/cleaned_data_phred.npy -t phred
 ```
-* Perform training on the data using 10-fold cross-validation and determine best parameters using Grid-search. We only tested XGBoost on cleaned Phred data for now
+* Perform training on the data using 10-fold cross-validation and determine best parameters using Grid-search. We tested XGBoost on cleaned Phred data using -m "xgbt".
 ```python
 python train.py -d phred_cleaned -m xgbt
 ```

@@ -59,7 +59,7 @@ to True if you are running test.py on test data with labels provided. Otherwise 
 ### Examples
 We provide some exmaples to show how to use the codes. 
 
-* Training
+* Loading training matrix
 ```python
 python DataLoader.py -pp DriverBase/training_Y_orig.xls -pn DriverBase/training_N_orig.xls -op DriverBase/Orig_Data.npy 
 python DataLoader.py -pp DriverBase/training_Y_Phred.xls -pn DriverBase/training_N_Phred.xls -op DriverBase/Phred_Data.npy
@@ -69,7 +69,7 @@ python DataLoader.py -pp DriverBase/training_Y_Phred.xls -pn DriverBase/training
 python outlier_detect.py -ip DriverBase/Orig_Data.npy -op DriverBase/cleaned_data_orig.npy -t orig
 python outlier_detect.py -ip DriverBase/Phred_Data.npy -op DriverBase/cleaned_data_phred.npy -t phred
 ```
-* Perform training on the data using 10-fold cross-validation and determine best parameters using Grid-search. We tested XGBoost on cleaned Phred-scaled model using -m "xgbt".
+* Perform training on the data using 10-fold cross-validation and determine best parameters using grid-search. We employ XGBoost to build cleaned Phred-scaled model using -m "xgbt" and -d "phred_cleaned".
 ```python
 python train.py -d phred_cleaned -m xgbt
 ```

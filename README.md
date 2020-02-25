@@ -73,7 +73,7 @@ python outlier_detect.py -ip DriverBase/Phred_Data.npy -op DriverBase/cleaned_da
 ```python
 python train.py -d phred_cleaned -m xgbt
 ```
-* Testing using independent data.
+* Testing model using independent data.
 ```python
 python DataLoader.py -pp Test_Data_Final/Pancancer/Pancancer_positive_orig.xls -pn Test_Data_Final/Pancancer/Pancancer_negative_orig.xls -op Test_Data_Final/Pancancer/Phred_Data.npy -lp Test_Data_Final/Pancancer/label_phred.npy -l True
 python test.py -f True -d phred -tp Test_Data_Final/Pancancer/Phred_Data.npy -of Test_Data_Final/Pancancer/ -lp Test_Data_Final/Pancancer/label_phred.npy -l True

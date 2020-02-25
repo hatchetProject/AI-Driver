@@ -3,11 +3,11 @@ AI-Driver is a ...
 
 ## Download
 * Clone and fork code and from this repository
-* Train data is available in the DriverBase folder, exome-wide 23 features of each possible variants can be downloaded [Here](http://47.89.179.59/download/varcards.main.Phred_scaled.xls.gz)
+* Train data is available in the DriverBase folder, exome-wide 23 features of each possible variants can be downloaded [Here](http://47.89.179.59/download/varcards.main.Phred_scaled.xls.gz).
 
 ## Usage
 ### Environment Requirement
-You can install the environment by using [conda](https://docs.anaconda.com/anaconda/install/)
+You can install the environment by using [conda](https://docs.anaconda.com/anaconda/install/).
 ```python
 conda create -n python3 python=3 xgboost=0.90 scikit-learn=0.221 xlrd xlwt xlutils pandas shap 
 ```

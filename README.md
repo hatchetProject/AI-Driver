@@ -32,8 +32,8 @@ where the used packages include
 python DataLoader.py -pp POSITIVE_PATH -pn NEGATIVE_PATH -op OUTPUT_PATH -lp LABEL_PATH -l TEST_LABEL_EXIST
 python outlier_detect.py -ip INPUT_PATH -op OUTPUT_PATH -t DATA_TYPE
 python train.py -d DATA_TYPE -m METHOD
-python analyze.py -d DATA_FORM -p DATA_PATH
 python test.py -f TRAIN -d DATA_TYPE -tp TEST_PATH -of OUTPUT_FOLDER -lp LABEL_PATH -l TEST_LABEL_EXIST
+python analyze.py -d DATA_FORM -p DATA_PATH
 ```
 #### Introductions of the parameters:
 * Running DataLoader.py transforms the original xls files into npy file for continuous experiments. Missing value imputation 
@@ -48,13 +48,13 @@ and DATA_TYPE chosen from {"orig", "phred"}. Specific introduction can be found 
 * train.py does the training process with 10-fold cross-validation, where the parameter space is defined in utils.py. DATA_TYPE take from {"orig", "phred", "orig_cleaned", "phred_cleaned"},  
 which indicates original data, Phred data, original data with outliers removed and Phred data with outliers removed. METHOD can be chosen from SVM (svm), Gradient Boosting Tree (gbdt), Random Forest (rf), 
 Multi-layer Perceptron (mlp), Adaboost (adaboost) and XGBoost (xgbt).
-* analyze.py analyzes the data and trained model using Sklearn methods and SHAP analysis. Model parameters need to be determined in train.py and analyze.py should use these 
-parameters for analysis (the best parameters for XGBoost are already available in code, but if you would like to change them, you have to do it manually). DATA_PATH indicates
-the path for data. DATA_FORM takes a value from {"orig", "phred", "test"}. If you choose "test", the data provided should be only from test dataset.
 * test.py does the testing. Model parameters need to be copied, models are saved during testing. If TRAIN is set to "True", then train and save models according to the best parameters, else no training is done. Thus
 TRAIN should be set to "True" for the first time and the other times are optional. DATA_TYPE should take from {"orig", "phred"}, TEST_PATH is the path of test data. OUTPUT_FOLDER is a folder for saving prediction results, 
 usually can make it the same directory as test data. LABEL_PATH is for loading the label information to generate output xls files. This path should be consistent with the one you indicated in DataLoader.py. Set TEST_LABEL_EXIST 
 to "True" if you are running test.py on test data with labels provided. Otherwise leave it as default.
+* analyze.py analyzes the data and trained model using Sklearn methods and SHAP analysis. Model parameters need to be determined in train.py and analyze.py should use these 
+parameters for analysis (the best parameters for XGBoost are already available in code, but if you would like to change them, you have to do it manually). DATA_PATH indicates
+the path for data. DATA_FORM takes a value from {"orig", "phred", "test"}. If you choose "test", the data provided should be only from test dataset.
   
 ### Examples
 We provide some exmaples to show how to use the codes. 
@@ -77,6 +77,10 @@ python train.py -d phred_cleaned -m xgbt
 ```python
 python DataLoader.py -pp Test_Data_Final/Pancancer/Pancancer_positive_orig.xls -pn Test_Data_Final/Pancancer/Pancancer_negative_orig.xls -op Test_Data_Final/Pancancer/Phred_Data.npy -lp Test_Data_Final/Pancancer/label_phred.npy -l True
 python test.py -f True -d phred -tp Test_Data_Final/Pancancer/Phred_Data.npy -of Test_Data_Final/Pancancer/ -lp Test_Data_Final/Pancancer/label_phred.npy -l True
+```
+* Evaluate the performance. ??????
+```python
+analyze.py???
 ```
 #### Notes for running code
 - 

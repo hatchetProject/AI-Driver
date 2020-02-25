@@ -52,6 +52,15 @@ def dataloader(dir, out_dir, transfer=False):
     tb = pd.read_csv(out_dir)
     return tb
 
+def get_labels(table):
+    """
+    Get the label information of test data. This function is for outputing the xls files as mentioned in test.py
+    :param table: table to be procecssed
+    :return: numpy array
+    """
+    np_array = np.array(table)
+    labeling = np_array[:, :12]
+    return labeling
 
 def table_to_npy(table):
     """
@@ -98,22 +107,38 @@ def get_test_dataset(dataset):
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-pp", "--pathPositive", default="DriverBase/training_Y_orig.xls", help="Input positive data path")
-    parser.add_argument("-pn", "--pathNegative", default="DriverBase/training_N_orig.xls", help="Input negative data path")
-    parser.add_argument("-op", "--outPath", default="DriverBase/Orig_Data.npy", help="Ouput data path")
+    parser.add_argument("-pp", "--pathPositive", default="DriverBase/training_Y_orig.xlsx", help="Input positive data path. Allowed input data type is xls")
+    parser.add_argument("-pn", "--pathNegative", default="DriverBase/training_N_orig.xlsx", help="Input negative data path. Set it to None if you are using test data without labels")
+    parser.add_argument("-op", "--outPath", default="DriverBase/Orig_Data.npy", help="Ouput data path.")
+    parser.add_argument("-lp", "--labelPath", default="DriverBase/Orig_Label.npy", help="Test data label path. This is for storing the  information, especially for test data. Storing values and ")
+    parser.add_argument("-l", "--labelExist", default="False", help="Whether label for test data exists. Set it to True if you are using test data and its label exists.")
     args = parser.parse_args()
     pathPos = args.pathPositive
     pathNeg = args.pathNegative
     output_path = args.outPath
+    label_path = args.labelPath
+    label_exist = args.labelExist
     if pathNeg == "None":
         posTable = dataloader(pathPos, "DriverBase/trainY.csv", True)
+        labels = get_labels(posTable)
+        np.save(label_path, labels)
         pos_array = table_to_npy(posTable)
         orig_dataset = get_test_dataset(pos_array)
     else:
-        posTable = dataloader(pathPos, "DriverBase/trainY.csv", True)  # Use True when first using the datasets, change to False to avoid additional calculation
-        negTable = dataloader(pathNeg, "DriverBase/trainN.csv", True)
-        pos_array = table_to_npy(posTable)
-        neg_array = table_to_npy(negTable)
-        orig_dataset = get_dataset(pos_array, neg_array)
-    print("Transferred dataset shape:", orig_dataset.shape)
+        if label_exist == "True":
+            posTable = dataloader(pathPos, "DriverBase/trainY.csv", True)
+            negTable = dataloader(pathNeg, "DriverBase/trainN.csv", True)
+            pos_label = get_labels(posTable)
+            neg_label = get_labels(negTable)
+            labels = np.concatenate((pos_label, neg_label))
+            np.save(label_path, labels)
+            pos_array = table_to_npy(posTable)
+            neg_array = table_to_npy(negTable)
+            orig_dataset = np.concatenate((pos_array, neg_array))
+        else:
+            posTable = dataloader(pathPos, "DriverBase/trainY.csv", True)  # Use True when first using the datasets, change to False for save of calculation
+            negTable = dataloader(pathNeg, "DriverBase/trainN.csv", True)
+            pos_array = table_to_npy(posTable)
+            neg_array = table_to_npy(negTable)
+            orig_dataset = get_dataset(pos_array, neg_array)
     np.save(output_path, orig_dataset)

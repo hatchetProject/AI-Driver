@@ -6,9 +6,9 @@ from utils import *
 import xlwt
 from sklearn.metrics import matthews_corrcoef
 from xlrd import open_workbook
-from xlutils.copy import copy
 import matplotlib.pyplot as plt
 import argparse
+import os
 
 def all_train(train_x_orig, train_y_orig, train_x_phred, train_y_phred):
     ## Get the two models (using original and Phred) trained on all samples
@@ -77,18 +77,43 @@ def test_and_evaluate(test_x, test_y, model):
     print ("F1 Score: ", f1_score(test_y, y_result))
     print("AUC: ", roc_auc_score(test_y, y_prob[:, -1]))
 
-def save_xls(test_x, test_y, model, file_name):
+def save_xls(test_x, test_y, model, label_path, file_name):
     y_prob = model.predict_proba(test_x)
     _, tpr, _ = roc_curve(test_y, y_prob[:, -1])
-
+    labeling = np.load(label_path, allow_pickle=True)
+    title = ["Chr", "Start", "End", "Ref", "Alt", "Gene_system", "region", "Gene_symbol", "Effect", "Mutation_type", "AA_change", "Cytoband", "False", "True"]
     workbook = xlwt.Workbook(encoding="utf-8")
     booksheet = workbook.add_sheet("sheet1", cell_overwrite_ok=True)
-    booksheet.write(0, 12, "false")
-    booksheet.write(0, 13, "true")
+    for i in range(len(title)):
+        booksheet.write(0, i, title[i])
+    for i in range(labeling.shape[0]):
+        for j in range(labeling.shape[1]):
+            if j == 7 or j == 10:
+                booksheet.write(i+1, j, labeling[i][j][1:-1])
+            else:
+                booksheet.write(i + 1, j, labeling[i][j])
     for i in range(y_prob.shape[0]):
         booksheet.write(i+1, 12, float(y_prob[i][0]))
         booksheet.write(i+1, 13, float(y_prob[i][1]))
     workbook.save(file_name)
+
+def save_csv(test_x, test_y, model, label_path, file_name, driverfile, nondriverfile):
+    y_prob = model.predict_proba(test_x)
+    y_result = model.predict(test_x)
+    labeling = np.load(label_path, allow_pickle=True)
+    title = np.array([["Chr", "Start", "End", "Ref", "Alt", "Gene_system", "region", "Gene_symbol", "Effect", "Mutation_type",
+             "AA_change", "Cytoband", "False", "True"]])
+    result = np.concatenate((labeling, y_prob), axis=1)
+    result = np.concatenate((title, result), axis=0)
+    np.savetxt(file_name, result, delimiter="\t", fmt='%s')
+
+    pos_label = np.where(y_result==1)[0]
+    neg_label = np.where(y_result==0)[0]
+    new_title = np.array([["Chr", "Start", "End", "Ref", "Alt", "Gene_system", "region", "Gene_symbol", "Effect", "Mutation_type",
+             "AA_change", "Cytoband"]])
+    np.savetxt(driverfile, np.concatenate((new_title, labeling[pos_label])), delimiter="\t", fmt="%s")
+    np.savetxt(nondriverfile, np.concatenate((new_title, labeling[neg_label])), delimiter="\t", fmt="%s")
+
 
 def train():
     ## Training and saving model, this part only need to be done once
@@ -114,18 +139,22 @@ def train():
     dataset_phred_x = np.delete(dataset_phred_x, [23, 24, 25], axis=1)
     cleaned_train(dataset_orig_x, dataset_orig_y, dataset_phred_x, dataset_phred_y)
 
+
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-f", "--train_flag", default="True", help="Perform training or not. Only need to train the first time, if models already saved, set this to False")
     parser.add_argument("-d", "--data_type", default="orig", help="Data type of the test data")
-    parser.add_argument("-tp", "--test_path", default="Test_Data_Final/Pancancer/Orig_Data.npy", help="Test data type")
+    parser.add_argument("-tp", "--test_path", default="Test_Data_Final/Pancancer/Orig_Data.npy", help="Test data path")
     parser.add_argument("-of", "--output_folder", default="Test_Data_Final/Pancancer/")
+    parser.add_argument("-lp", "--label_path", default="DriverBase/Orig_Label.npy")
+    parser.add_argument("-l", "--labelExist", default="False", help="Whether label for test data exists. Set it to True if you are using test data and its label exists.")
     args = parser.parse_args()
     train_f = args.train_flag
     d_type = args.data_type
     test_path = args.test_path
     output_path = args.output_folder
-
+    label_path = args.label_path
+    label_exist = args.labelExist
     ## Training process
     if train_f == "True":
         train()
@@ -138,24 +167,37 @@ if __name__=="__main__":
         print("Test on original dataset")
         print("Testing on XGBoost trained with whole training set")
         model_xgbt_all = joblib.load("model/xgboost_orig_all.pkl")
-        test_and_evaluate(dataset_x, dataset_y, model_xgbt_all)
-        save_xls(dataset_x, dataset_y, model_xgbt_all, output_path+"xgboost_orig.xls")
+        if label_exist == "True":
+            test_and_evaluate(dataset_x, dataset_y, model_xgbt_all)
+        #save_xls(dataset_x, dataset_y, model_xgbt_all, label_path, output_path+"xgboost_orig.xls")
+        save_csv(dataset_x, dataset_y, model_xgbt_all, label_path, os.path.join(output_path, "xgboost_orig.csv"),
+                 os.path.join(output_path, "xgboost_orig_driver.csv"), os.path.join(output_path, "xgboost_orig_passenger.csv"))
 
         print("Testing on XGBoost trained with cleaned training set")
         model_xgbt_cleaned = joblib.load("model/xgboost_orig_cleaned.pkl")
-        test_and_evaluate(dataset_x, dataset_y, model_xgbt_cleaned)
-        save_xls(dataset_x, dataset_y, model_xgbt_cleaned, output_path+"xgboost_orig_cleaned.xls")
+        if label_exist == "True":
+            test_and_evaluate(dataset_x, dataset_y, model_xgbt_cleaned)
+        #save_xls(dataset_x, dataset_y, model_xgbt_cleaned, label_path, output_path+"xgboost_orig_cleaned.xls")
+        save_csv(dataset_x, dataset_y, model_xgbt_cleaned, label_path, os.path.join(output_path, "xgboost_orig_cleaned.csv"),
+                 os.path.join(output_path, "xgboost_orig_cleaned_driver.csv"), os.path.join(output_path, "xgboost_orig_cleaned_passenger.csv"))
 
     elif d_type == "phred":
         print("Testing on Phred dataset")
         print("Testing on XGBoost trained with whole training set")
         model_xgbt_all = joblib.load("model/xgboost_phred_all.pkl")
-        test_and_evaluate(dataset_x, dataset_y, model_xgbt_all)
-        save_xls(dataset_x, dataset_y, model_xgbt_all, output_path+"xgboost_phred.xls")
+        if label_exist == "True":
+            test_and_evaluate(dataset_x, dataset_y, model_xgbt_all)
+        #save_xls(dataset_x, dataset_y, model_xgbt_all, label_path, output_path+"xgboost_phred.xls")
+        save_csv(dataset_x, dataset_y, model_xgbt_all, label_path, os.path.join(output_path, "xgboost_phred.csv"),
+                 os.path.join(output_path, "xgboost_phred_driver.csv"), os.path.join(output_path, "xgboost_phred_passenger.csv"))
 
         print("Testing on XGBoost trained with cleaned training set")
         model_xgbt_cleaned = joblib.load("model/xgboost_phred_cleaned.pkl")
-        test_and_evaluate(dataset_x, dataset_y, model_xgbt_cleaned)
-        save_xls(dataset_x, dataset_y, model_xgbt_cleaned, output_path+"xgboost_phred_cleaned.xls")
+        if label_exist == "True":
+            test_and_evaluate(dataset_x, dataset_y, model_xgbt_cleaned)
+        #save_xls(dataset_x, dataset_y, model_xgbt_cleaned, label_path, output_path+"xgboost_phred_cleaned.xls")
+        save_csv(dataset_x, dataset_y, model_xgbt_cleaned, label_path, os.path.join(output_path, "xgboost_phred_cleaned.csv"),
+                 os.path.join(output_path, "xgboost_phred_cleaned_driver.csv"), os.path.join(output_path, "xgboost_phred_cleaned_passenger.csv"))
     else:
         print("Data type not allowed Refer to --help for more information")
+

@@ -13,8 +13,8 @@ from outlier_detect import cleaned_orig, cleaned_phred
 
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-d", "--dataset", default="orig", help="Dataset chosen to be used")
-    parser.add_argument("-m", "--method", default="xgboost", help="Method to be used for training")
+    parser.add_argument("-d", "--dataset", default="orig", help="Dataset chosen to be used. Choose from {'orig, 'phred', 'orig_cleaned', 'phred_cleaned'}")
+    parser.add_argument("-m", "--method", default="xgboost", help="Method to be used for training. 6 methods provided, including SVM, Random Forest, AdaBoost, MLP, Gradient Boosting Tree and XGBoost.")
     args = parser.parse_args()
     dataset = args.dataset
     method = args.method

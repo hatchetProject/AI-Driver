@@ -59,12 +59,12 @@ to True if you are running test.py on test data with labels provided. Otherwise 
 ### Examples
 We provide some exmaples to show how to use the codes. 
 
-* Loading training matrix
+* Loading training data matrix.
 ```python
 python DataLoader.py -pp DriverBase/training_Y_orig.xls -pn DriverBase/training_N_orig.xls -op DriverBase/Orig_Data.npy 
 python DataLoader.py -pp DriverBase/training_Y_Phred.xls -pn DriverBase/training_N_Phred.xls -op DriverBase/Phred_Data.npy
 ```
-* Remove outliers from training data, run the following command if removing is useful (but anyway you need to run this to see if it works)
+* Remove outliers from training data, run the following command if removing is useful (but anyway you need to run this to see if it works).
 ```python
 python outlier_detect.py -ip DriverBase/Orig_Data.npy -op DriverBase/cleaned_data_orig.npy -t orig
 python outlier_detect.py -ip DriverBase/Phred_Data.npy -op DriverBase/cleaned_data_phred.npy -t phred

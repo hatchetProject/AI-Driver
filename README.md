@@ -41,7 +41,7 @@ and random shuffling of data is also done. POSITIVE_PATH indicates the path for 
 NEGATIVE_PATH indicates the path for negative training samples, OUTPUT_PATH indicates the path for outputing transferred 
 xls files into npy file path (for example: DriverBase/Orig_Data.npy). Set NEGATIVE_PATH to "None" to transfer a single xls file into npy format. LABEL_PATH
 is for storing the label information of test data. If you are running DataLoader.py on training data, ignore this term. Note that this LABEL_PATH should be consistent
-with the one in test.py's hyperparameters. Set TEST_LABEL_EXIST to True if you are running DataLoader.py on test data with labels provided. Otherwise leave it as default.
+with the one in test.py's hyperparameters. Set TEST_LABEL_EXIST to "True" if you are running DataLoader.py on test data with labels provided. Otherwise leave it as default.
 * outlier_detect.py is not compulsory, only adopted if removing outliers is useful. We use Isolation Forest to remove the outliers from the
 data. INPUT_PATH is the path of DataLoader.py's OUTPUT_PATH, OUTPUT_PATH is for data with outliers removed (e.g. DriverBase/cleaned_data_orig.npy), 
 and DATA_TYPE chosen from {"orig", "phred"}. Specific introduction can be found by using --help command. 
@@ -51,10 +51,10 @@ Multi-layer Perceptron (mlp), Adaboost (adaboost) and XGBoost (xgbt).
 * analyze.py analyzes the data and trained model using Sklearn methods and SHAP analysis. Model parameters need to be determined in train.py and analyze.py should use these 
 parameters for analysis (the best parameters for XGBoost are already available in code, but if you would like to change them, you have to do it manually). DATA_PATH indicates
 the path for data. DATA_FORM takes a value from {"orig", "phred", "test"}. If you choose "test", the data provided should be only from test dataset.
-* test.py does the testing. Model parameters need to be copied, models are saved during testing. If TRAIN is set to True, then train and save models according to the best parameters, else no training is done. Thus
-TRAIN should be set to True for the first time and the other times are optional. DATA_TYPE should take from {"orig", "phred"}, TEST_PATH is the path of test data. OUTPUT_FOLDER is a folder for saving prediction results, 
+* test.py does the testing. Model parameters need to be copied, models are saved during testing. If TRAIN is set to "True", then train and save models according to the best parameters, else no training is done. Thus
+TRAIN should be set to "True" for the first time and the other times are optional. DATA_TYPE should take from {"orig", "phred"}, TEST_PATH is the path of test data. OUTPUT_FOLDER is a folder for saving prediction results, 
 usually can make it the same directory as test data. LABEL_PATH is for loading the label information to generate output xls files. This path should be consistent with the one you indicated in DataLoader.py. Set TEST_LABEL_EXIST 
-to True if you are running test.py on test data with labels provided. Otherwise leave it as default.
+to "True" if you are running test.py on test data with labels provided. Otherwise leave it as default.
   
 ### Examples
 We provide some exmaples to show how to use the codes. 

@@ -59,21 +59,21 @@ to True if you are running test.py on test data with labels provided. Otherwise 
 #### An example of usage
 We provide some exmaples to show how to use the code 
 
-# Training
+#### Training
 ```python
 python DataLoader.py -pp DriverBase/training_Y_orig.xls -pn DriverBase/training_N_orig.xls -op DriverBase/Orig_Data.npy 
 python DataLoader.py -pp DriverBase/training_Y_Phred.xls -pn DriverBase/training_N_Phred.xls -op DriverBase/Phred_Data.npy
 ```
-# Remove outliers from data, run the following command if removing is useful (but anyway you need to run this to see if it works)
+#### Remove outliers from data, run the following command if removing is useful (but anyway you need to run this to see if it works)
 ```python
 python outlier_detect.py -ip DriverBase/Orig_Data.npy -op DriverBase/cleaned_data_orig.npy -t orig
 python outlier_detect.py -ip DriverBase/Phred_Data.npy -op DriverBase/cleaned_data_phred.npy -t phred
 ```
-# Perform training on the data using 10-fold cross-validation and determine best parameters using Grid-search. We only test XGBoost on cleaned Phred data for now
+#### Perform training on the data using 10-fold cross-validation and determine best parameters using Grid-search. We only test XGBoost on cleaned Phred data for now
 ```python
 python train.py -d phred_cleaned -m xgbt
 ```
-# Testing
+#### Testing
 ```python
 python DataLoader.py -pp Test_Data_Final/Pancancer/Pancancer_positive_orig.xls -pn Test_Data_Final/Pancancer/Pancancer_negative_orig.xls -op Test_Data_Final/Pancancer/Phred_Data.npy -lp Test_Data_Final/Pancancer/label_phred.npy -l True
 python test.py -f True -d phred -tp Test_Data_Final/Pancancer/Phred_Data.npy -of Test_Data_Final/Pancancer/ -lp Test_Data_Final/Pancancer/label_phred.npy -l True

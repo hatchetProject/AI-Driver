@@ -78,12 +78,13 @@ python train.py -d phred_cleaned -m xgbt
 python DataLoader.py -pp Test_Data_Final/Pancancer/Pancancer_positive_orig.xls -pn Test_Data_Final/Pancancer/Pancancer_negative_orig.xls -op Test_Data_Final/Pancancer/Phred_Data.npy -lp Test_Data_Final/Pancancer/label_phred.npy -l True
 python test.py -f True -d phred -tp Test_Data_Final/Pancancer/Phred_Data.npy -of Test_Data_Final/Pancancer/ -lp Test_Data_Final/Pancancer/label_phred.npy -l True
 ```
-* Evaluate the performance based on 10-fold cross-validation and independent test data. ??????
+* Evaluate the performance based on 10-fold cross-validation and independent test data. SHAP analysis of feature importance and SHAP value is also supported. You can change the source code to specify which kind of analysis to perform on. 
 ```python
-analyze.py   ???
+python analyze.py -d phred -p DriverBase/cleaned_data_phred.npy
 ```
 #### Notes for running code
-- 
+- Be careful -of indicates a folder, not file. Recommended to add '/' at last
+- XGBoost's parameters are determined two or three at a time but not all at the same time due to the CPU power. For faster training, you can also changhe the code to determine the parameters two or three at a time.
 
 
 ### Copyright

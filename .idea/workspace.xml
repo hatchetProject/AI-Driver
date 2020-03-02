@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="26369a89-c8b3-4d5c-8784-0f09c6d999b0" name="Default Changelist" comment="">
+    <list default="true" id="26369a89-c8b3-4d5c-8784-0f09c6d999b0" name="Default Changelist" comment="update README">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
@@ -43,7 +43,7 @@
       <updated>1581432337714</updated>
       <workItem from="1581432341422" duration="6274000" />
       <workItem from="1581602673397" duration="58244000" />
-      <workItem from="1582351919033" duration="42146000" />
+      <workItem from="1582351919033" duration="53628000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <created>1581433732646</created>
@@ -220,7 +220,14 @@
       <option name="project" value="LOCAL" />
       <updated>1582551446254</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="update README">
+      <created>1582690041441</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1582690041441</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -242,7 +249,6 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First commit" />
     <MESSAGE value="update training dataset and code" />
-    <MESSAGE value="update README" />
     <MESSAGE value="update code" />
     <MESSAGE value="update DataLoader" />
     <MESSAGE value="update dataloader() in DataLoader.py" />
@@ -250,6 +256,7 @@
     <MESSAGE value="update test" />
     <MESSAGE value="update DataLoader.py and test.py, adding a parameter" />
     <MESSAGE value="update test.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="update test.py" />
+    <MESSAGE value="update README" />
+    <option name="LAST_COMMIT_MESSAGE" value="update README" />
   </component>
 </project>

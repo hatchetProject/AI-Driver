@@ -31,7 +31,7 @@ where the used packages include
 ```python
 python DataLoader.py -pp POSITIVE_PATH -pn NEGATIVE_PATH -op OUTPUT_PATH -lp LABEL_PATH -l TEST_LABEL_EXIST
 python outlier_detect.py -ip INPUT_PATH -op OUTPUT_PATH -t DATA_TYPE
-python train.py -d DATA_TYPE -m METHOD
+python train.py -p DATA_PATH -m METHOD
 python test.py -f TRAIN -d DATA_TYPE -tp TEST_PATH -of OUTPUT_FOLDER -lp LABEL_PATH -l TEST_LABEL_EXIST
 python analyze.py -d DATA_FORM -p DATA_PATH
 ```
@@ -45,9 +45,8 @@ with the one in test.py's hyperparameters. Set TEST_LABEL_EXIST to "True" if you
 * outlier_detect.py is not compulsory, only adopted if removing outliers is useful. We use Isolation Forest to remove the outliers from the
 data. INPUT_PATH is the path of DataLoader.py's OUTPUT_PATH, OUTPUT_PATH is for data with outliers removed (e.g. DriverBase/cleaned_data_orig.npy), 
 and DATA_TYPE chosen from {"orig", "phred"}. Specific introduction can be found by using --help command. 
-* train.py does the training process with 10-fold cross-validation, where the parameter space is defined in utils.py. DATA_TYPE take from {"orig", "phred", "orig_cleaned", "phred_cleaned"},  
-which indicates original data, Phred data, original data with outliers removed and Phred data with outliers removed. METHOD can be chosen from SVM (svm), Gradient Boosting Tree (gbdt), Random Forest (rf), 
-Multi-layer Perceptron (mlp), Adaboost (adaboost) and XGBoost (xgbt).
+* train.py does the training process with 10-fold cross-validation, where the parameter space is defined in utils.py. DATA_PATH is the path for training data. 
+METHOD can be chosen from SVM (svm), Gradient Boosting Tree (gbdt), Random Forest (rf),  Multi-layer Perceptron (mlp), Adaboost (adaboost) and XGBoost (xgbt).
 * test.py does the testing. Model parameters need to be copied, models are saved during testing. If TRAIN is set to "True", then train and save models according to the best parameters, else no training is done. Thus
 TRAIN should be set to "True" for the first time and the other times are optional. DATA_TYPE should take from {"orig", "phred"}, TEST_PATH is the path of test data. OUTPUT_FOLDER is a folder for saving prediction results, 
 usually can make it the same directory as test data. LABEL_PATH is for loading the label information to generate output xls files. This path should be consistent with the one you indicated in DataLoader.py. Set TEST_LABEL_EXIST 
@@ -71,7 +70,7 @@ python outlier_detect.py -ip DriverBase/Phred_Data.npy -op DriverBase/cleaned_da
 ```
 * Perform training on the data using 10-fold cross-validation and determine best parameters using grid-search. We can employ XGBoost to build a cleaned Phred-scaled model using -m "xgbt" and -d "phred_cleaned".
 ```python
-python train.py -d phred_cleaned -m xgbt
+python train.py -p DriverBase/cleaned_data_phred.npy -m xgbt
 ```
 * Testing model using independent data.
 ```python

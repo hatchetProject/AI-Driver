@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="26369a89-c8b3-4d5c-8784-0f09c6d999b0" name="Default Changelist" comment="update README">
+    <list default="true" id="26369a89-c8b3-4d5c-8784-0f09c6d999b0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
@@ -43,7 +43,7 @@
       <updated>1581432337714</updated>
       <workItem from="1581432341422" duration="6274000" />
       <workItem from="1581602673397" duration="58244000" />
-      <workItem from="1582351919033" duration="53628000" />
+      <workItem from="1582351919033" duration="53941000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <created>1581433732646</created>
@@ -227,7 +227,14 @@
       <option name="project" value="LOCAL" />
       <updated>1582690041441</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="update train">
+      <created>1583120299412</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1583120299412</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -257,6 +264,7 @@
     <MESSAGE value="update DataLoader.py and test.py, adding a parameter" />
     <MESSAGE value="update test.py" />
     <MESSAGE value="update README" />
-    <option name="LAST_COMMIT_MESSAGE" value="update README" />
+    <MESSAGE value="update train" />
+    <option name="LAST_COMMIT_MESSAGE" value="update train" />
   </component>
 </project>

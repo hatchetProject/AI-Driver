@@ -3,7 +3,7 @@ AI-Driver (AI-based driver classifier)is an ensemble method for predicting the d
 
 ## Download
 * Clone and fork code and from this repository.
-* Train data is available in the DriverBase folder, 23 features of whole exome for any possible variant can be downloaded [Here](http://47.89.179.59/download/varcards.main.Phred_scaled.xls.gz).
+* Training data is available in the DriverBase folder, 23 features of whole exome for any possible variant can be downloaded [Here](http://47.89.179.59/download/varcards.main.Phred_scaled.xls.gz).
 
 ## Usage
 ### Environment Requirement

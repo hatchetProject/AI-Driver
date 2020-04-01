@@ -87,4 +87,4 @@ python analyze.py -d phred -p DriverBase/cleaned_data_phred.npy
 
 
 ### Copyright
-Copyright (c) University of Michigan 2019-2021. All rights reserved. Please note some constituent score of AI-Driver contains specific licence or usage constraints for non-academic usage. AI-Driver does not grant the non-academic usage of those scores, so please contact the original score/method providers for proper usage purpose.        
+Copyright (c) University of Michigan 2019-2021. All rights reserved. Please note some constituent features of AI-Driver contain specific licence or usage constraints for non-academic usage. AI-Driver does not grant the non-academic usage of those scores, so please contact the original score/method providers for proper usage purpose.        

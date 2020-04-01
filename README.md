@@ -1,5 +1,5 @@
 # AI-Driver
-AI-Driver is a ...
+AI-Driver is an ensemble method for predicting the driver status of somatic missense mutations. Missense mutations are the most common protein-coding mutation found in cancer genomes and increasing number of missense mutations has been recognized as clinically actionable . AI-Driver outperformed its individual constituent prediction tools, as expected for ensemble methods. We have shown that AI-Driver consistently has the best overall performance as compared to existing methods, particularly for distinguishing driver mutations from uncommon neutral missense mutations with an AF below 1%. AI-Driver also outperforms existing cancer-specific methods for distinguishing driver mutations from passenger mutations. Therefore, AI-Driver can be used to prioritize the most likely driver mutations among the sea of rare somatic mutations that are increasingly discovered as sequencing studies expand in scale.
 
 ## Download
 * Clone and fork code and from this repository.

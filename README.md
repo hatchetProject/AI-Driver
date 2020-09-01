@@ -1,6 +1,8 @@
 # AI-Driver
 AI-Driver (AI-based driver classifier)is an ensemble method for predicting the driver status of somatic missense mutations based on 23 pathogenicity features. Missense mutations are the most common protein-coding mutations found in cancer genomes and increasing number of missense mutations has been recognized as clinically actionable variants. AI-Driver outperforms its individual constituent prediction tools, as expected for ensemble methods. We have shown that AI-Driver consistently has the best overall performance as compared to existing methods, particularly for distinguishing driver mutations from uncommon neutral missense mutations with an AF below 1%. AI-Driver also outperforms existing cancer-specific methods for distinguishing driver mutations from passenger mutations. Therefore, AI-Driver can be used to prioritize the most likely driver mutations among the sea of rare somatic mutations that are increasingly discovered as sequencing studies expand in scale.
 
+The pre-computed AI-Driver scores for all genome-wide possible missense variants are available at [here](http://aidriver.maolab.org/).  
+
 ## Download
 * Clone and fork code and from this repository.
 * Training data is available in the DriverBase folder and 23 features of whole exome for any possible variant can be downloaded [here](http://159.226.67.237/sun/AI-Driver/download/varcards.main.Phred_scaled.xls.gz).

@@ -76,8 +76,8 @@ python train.py -p DriverBase/cleaned_data_phred.npy -m xgbt
 ```
 * Testing model using independent data.
 ```python
-python DataLoader.py -pp Test_Data_Final/Pancancer/Pancancer_positive_orig.xls -pn Test_Data_Final/Pancancer/Pancancer_negative_orig.xls -op Test_Data_Final/Pancancer/Phred_Data.npy -lp Test_Data_Final/Pancancer/label_phred.npy -l True
-python test.py -f True -d phred -tp Test_Data_Final/Pancancer/Phred_Data.npy -of Test_Data_Final/Pancancer/ -lp Test_Data_Final/Pancancer/label_phred.npy -l True
+python DataLoader.py -pp Test_Data_Final/TP53_Test/TP53_positive_orig.xls -pn Test_Data_Final/TP53_Test/TP53_negative_orig.xls -op Test_Data_Final/TP53_Test/Phred_Data.npy -lp Test_Data_Final/TP53_Test/label_phred.npy -l True
+python test.py -f True -d phred -tp Test_Data_Final/TP53_Test/Phred_Data.npy -of Test_Data_Final/TP53_Test/ -lp Test_Data_Final/TP53_Test/label_phred.npy -l True
 ```
 * Evaluate the performance based on 10-fold cross-validation and independent test data. SHAP analysis of feature importance and SHAP value is also supported. You can change the source code to specify which kind of analysis to perform on. 
 ```python

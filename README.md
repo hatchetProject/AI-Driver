@@ -84,8 +84,8 @@ python test.py -f True -d phred -tp Test_Data_Final/TP53_Test/Phred_Data.npy -of
 python analyze.py -d phred -p DriverBase/cleaned_data_phred.npy
 ```
 #### Notes for running code
-- Be careful -of indicates a folder, not file. Recommended to add '/' at last
-- XGBoost's parameters are determined two or three at a time but not all at the same time due to the CPU power. For faster training, you can also changhe the code to determine the parameters two or three at a time.
+- Be careful that "-of" indicates a folder, not file. Recommended to add '/' at last
+- XGBoost's parameters are determined two or three at a time but not all at the same time due to the CPU power. For faster training, you can also change the code to determine the parameters two or three at a time.
 
 
 ### Copyright
